@@ -1,15 +1,15 @@
 var cheerio = require('cheerio');
 var request = require('request');
 
-exports.perkkaa = function(imageSaver) {
-  imageSaver.saveImage('perkkaa', 'https://www.puuppa.org/~pnuu/sky-cam/latest.jpg');
+exports.perkkaa = function(imageManager) {
+  imageManager.saveImage('perkkaa', 'https://www.puuppa.org/~pnuu/sky-cam/latest.jpg');
 };
 
-exports.metsahovi = function(imageSaver) {
-  imageSaver.saveImage('metsahovi', 'http://data.metsahovi.fi/allsky/latest_hf.jpeg');
+exports.metsahovi = function(imageManager) {
+  imageManager.saveImage('metsahovi', 'http://data.metsahovi.fi/allsky/latest_hf.jpeg');
 };
 
-exports.testbed = function(imageSaver) {
+exports.testbed = function(imageManager) {
   const baseUrl = 'http://testbed.fmi.fi/';
   request(baseUrl, function(error, response, html) {
     if (error) {
@@ -23,19 +23,19 @@ exports.testbed = function(imageSaver) {
     let $ = cheerio.load(html);
     let relativeUrl = $('img[alt="Radar & temperature"]').attr('src');
     const completeUrl = baseUrl + relativeUrl;
-    imageSaver.saveImage('testbed', completeUrl);
+    imageManager.saveImage('testbed', completeUrl);
   });
 };
 
-exports.sat24ir = function(imageSaver) {
-  saveSat24Image(imageSaver, 'ir');
+exports.sat24ir = function(imageManager) {
+  saveSat24Image(imageManager, 'ir');
 };
 
-exports.sat24vis = function(imageSaver) {
-  saveSat24Image(imageSaver, 'visual');
+exports.sat24vis = function(imageManager) {
+  saveSat24Image(imageManager, 'visual');
 };
 
-function saveSat24Image(imageSaver, imageType) {
+function saveSat24Image(imageManager, imageType) {
   let typeString = '';
   switch (imageType) {
     case 'ir':
@@ -69,6 +69,6 @@ function saveSat24Image(imageSaver, imageType) {
     const splitScript = embeddedScript.split(';');
     const latestTimestamp = splitScript[splitScript.length - 2].split('\'')[1];
     const imageUrl = 'http://en.sat24.com/image?type=' + typeString + '&region=scan&timestamp=' + latestTimestamp;
-    imageSaver.saveImage('sat24' + imageType, imageUrl);
+    imageManager.saveImage('sat24' + imageType, imageUrl);
   });
 }

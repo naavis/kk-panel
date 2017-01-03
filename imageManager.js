@@ -1,7 +1,7 @@
 var image_downloader = require('image-downloader');
 var path = require('path');
 
-module.exports = class ImageSaver {
+module.exports = class ImageManager {
   constructor(basePath) {
     this.basePath = basePath;
   }
