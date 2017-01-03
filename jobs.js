@@ -36,6 +36,7 @@ exports.sat24vis = function(imageManager) {
 };
 
 function saveSat24Image(imageManager, imageType) {
+  // typeString is used in URLs to differentiate between IR images and Visual images
   let typeString = '';
   switch (imageType) {
     case 'ir':
