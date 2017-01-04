@@ -1,4 +1,3 @@
-
 var sinon = require('sinon');
 var mock = require('mock-require');
 var assert = require('assert');
@@ -6,6 +5,7 @@ var ImageManager = require('../imageManager.js');
 
 const DUMMY_NAME = 'dummyname';
 const DUMMY_PATH = 'dummypath/';
+// TODO: Check if \\ versus / breaks a test on *nix
 const DUMMY_DEST = 'dummypath\\dummyname-latest.jpg';
 const DUMMY_URL = 'http://foo.bar/baz.jpg';
 const DUMMY_URL_NO_EXT = 'http://foo.bar/baz';
