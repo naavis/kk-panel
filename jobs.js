@@ -9,6 +9,10 @@ exports.metsahovi = function(imageManager) {
   imageManager.saveImage('metsahovi', 'http://data.metsahovi.fi/allsky/latest_hf.jpeg');
 };
 
+exports.kumpula = function(imageManager) {
+  imageManager.saveImage('kumpula', 'http://aurora.fmi.fi/public_service/latest_DYN.jpg');
+};
+
 exports.testbed = function(imageManager) {
   const baseUrl = 'http://testbed.fmi.fi/';
   request(baseUrl, function(error, response, html) {

@@ -26,3 +26,7 @@ cron.schedule('*/5 * * * *', function sat24irJob() {
   console.log('Starting Sat24 Visual job!');
   jobs.sat24vis(imageManager);
 });
+cron.schedule('* * * * *', function kumpulaJob() {
+  console.log('Starting Kumpula job!');
+  jobs.kumpula(imageManager);
+});
