@@ -10,7 +10,7 @@ describe('jobs', () => {
         getSat24TypeString = sat24.__get__('getSat24TypeString');
       })
 
-      it('return infraPolair by default', () => {
+      it('returns infraPolair by default', () => {
         const typeString = getSat24TypeString('foobar');
         assert(typeString === 'infraPolair');
       });
