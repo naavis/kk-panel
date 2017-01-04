@@ -14,8 +14,12 @@ describe('imageManager', () => {
   describe('saveImage', () => {
     var manager = {};
     var downloaderSpy = {};
+    var fsSpy = {};
 
     beforeEach(() => {
+      fsSpy = { statSync: sinon.spy() };
+      mock('fs', fsSpy);
+
       downloaderSpy = sinon.spy();
       mock('image-downloader', downloaderSpy);
       ImageManager = mock.reRequire('../imageManager.js');

@@ -1,9 +1,20 @@
 var image_downloader = require('image-downloader');
 var path = require('path');
+var fs = require('fs');
 
 module.exports = class ImageManager {
   constructor(basePath) {
-    this.basePath = basePath;
+    this.basePath = path.normalize(basePath);
+
+    // Create directory for images, if it does not exist.
+    try {
+      fs.statSync(this.basePath);
+    } catch (error) {
+      if (error.code !== 'ENOENT') {
+        throw error;
+      }
+      fs.mkdirSync(this.basePath);
+    }
   }
 
   saveImage(name, url) {
