@@ -31,6 +31,8 @@ exports.testbed = function(imageManager) {
   });
 };
 
+// TODO: Move each job into separate file?
+
 exports.sat24ir = function(imageManager) {
   saveSat24Image(imageManager, 'ir');
 };
@@ -41,18 +43,7 @@ exports.sat24vis = function(imageManager) {
 
 function saveSat24Image(imageManager, imageType) {
   // typeString is used in URLs to differentiate between IR images and Visual images
-  let typeString = '';
-  switch (imageType) {
-    case 'ir':
-      typeString = 'infraPolair';
-      break;
-    case 'visual':
-      typeString = 'visual5';
-      break;
-    default:
-      typeString = 'infraPolair';
-      break;
-  }
+  let typeString = getSat24TypeString(imageType);
 
   const options = {
     url: 'http://en.sat24.com/en/scan/' + typeString,
@@ -75,6 +66,22 @@ function saveSat24Image(imageManager, imageType) {
     const imageUrl = 'http://en.sat24.com/image?type=' + typeString + '&region=scan&timestamp=' + latestTimestamp;
     imageManager.saveImage('sat24' + imageType, imageUrl);
   });
+}
+
+function getSat24TypeString(imageType) {
+  let typeString = '';
+  switch (imageType) {
+    case 'ir':
+      typeString = 'infraPolair';
+      break;
+    case 'visual':
+      typeString = 'visual5';
+      break;
+    default:
+      typeString = 'infraPolair';
+      break;
+  }
+  return typeString;
 }
 
 function parseEmbeddedSat24Script(scriptContents) {
