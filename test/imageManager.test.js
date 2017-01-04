@@ -11,7 +11,7 @@ const DUMMY_URL = 'http://foo.bar/baz.jpg';
 const DUMMY_URL_NO_EXT = 'http://foo.bar/baz';
 
 describe('imageManager', () => {
-  describe('saveImage', () => {
+  describe('#saveImage', () => {
     var manager = {};
     var downloaderSpy = {};
     var fsSpy = {};
@@ -32,7 +32,7 @@ describe('imageManager', () => {
     });
 
     it('saves correct base path', () => {
-      assert(manager.basePath === DUMMY_PATH);
+      assert.equal(manager.basePath, DUMMY_PATH);
     });
 
     it('calls given URL', () => {

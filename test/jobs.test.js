@@ -12,17 +12,17 @@ describe('jobs', () => {
 
       it('returns infraPolair by default', () => {
         const typeString = getSat24TypeString('foobar');
-        assert(typeString === 'infraPolair');
+        assert.equal(typeString, 'infraPolair');
       });
 
       it('returns visual5 when called with visual', () => {
         const typeString = getSat24TypeString('visual');
-        assert(typeString === 'visual5');
+        assert.equal(typeString, 'visual5');
       });
 
       it('returns infraPolair when called with ir', () => {
         const typeString = getSat24TypeString('ir');
-        assert(typeString === 'infraPolair');
+        assert.equal(typeString, 'infraPolair');
       });
     });
 
@@ -31,7 +31,7 @@ describe('jobs', () => {
         let parseEmbeddedSat24Script = sat24.__get__('parseEmbeddedSat24Script');
         let timestamp = parseEmbeddedSat24Script(embeddedScript);
 
-        assert(timestamp === '201701041205');
+        assert.equal(timestamp, '201701041205');
       });
 
       // Script taken from Sat24 website
