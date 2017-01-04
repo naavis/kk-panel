@@ -71,9 +71,14 @@ function saveSat24Image(imageManager, imageType) {
     }
     let $ = cheerio.load(html);
     const embeddedScript = $('script[type="text/javascript"]', '#content').first().text();
-    const splitScript = embeddedScript.split(';');
-    const latestTimestamp = splitScript[splitScript.length - 2].split('\'')[1];
+    const latestTimestamp = parseEmbeddedSat24Script(embeddedScript);
     const imageUrl = 'http://en.sat24.com/image?type=' + typeString + '&region=scan&timestamp=' + latestTimestamp;
     imageManager.saveImage('sat24' + imageType, imageUrl);
   });
+}
+
+function parseEmbeddedSat24Script(scriptContents) {
+  const splitScript = scriptContents.split(';');
+  const latestTimestamp = splitScript[splitScript.length - 2].split('\'')[1];
+  return latestTimestamp;
 }
