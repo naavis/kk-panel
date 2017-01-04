@@ -3,7 +3,7 @@ var cron = require('node-cron');
 var ImageManager = require('./imageManager.js');
 var imageManager = new ImageManager('images/');
 
-var jobs = require('./jobs.js');
+var jobs = require('./jobs');
 
 // Configure job schedules
 cron.schedule('30 * * * * *', function perkkaaJob() {
