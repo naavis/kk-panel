@@ -11,30 +11,30 @@ const DUMMY_URL = 'http://foo.bar/baz.jpg';
 const DUMMY_URL_NO_EXT = 'http://foo.bar/baz';
 
 describe('imageManager', () => {
+  var manager = {};
+  var downloaderSpy = {};
+  var fsSpy = {};
+
+  beforeEach(() => {
+    fsSpy = { statSync: sinon.spy() };
+    mock('fs', fsSpy);
+
+    downloaderSpy = sinon.spy();
+    mock('image-downloader', downloaderSpy);
+    ImageManager = mock.reRequire('../imageManager.js');
+
+    manager = new ImageManager(DUMMY_PATH);
+  });
+
+  afterEach(() => {
+    mock.stopAll();
+  });
+
+  it('saves correct base path', () => {
+    assert.equal(manager.basePath, DUMMY_PATH);
+  });
+
   describe('#saveImage', () => {
-    var manager = {};
-    var downloaderSpy = {};
-    var fsSpy = {};
-
-    beforeEach(() => {
-      fsSpy = { statSync: sinon.spy() };
-      mock('fs', fsSpy);
-
-      downloaderSpy = sinon.spy();
-      mock('image-downloader', downloaderSpy);
-      ImageManager = mock.reRequire('../imageManager.js');
-
-      manager = new ImageManager(DUMMY_PATH);
-    });
-
-    afterEach(() => {
-      mock.stopAll();
-    });
-
-    it('saves correct base path', () => {
-      assert.equal(manager.basePath, DUMMY_PATH);
-    });
-
     it('calls given URL', () => {
       manager.saveImage(DUMMY_NAME, DUMMY_URL);
       assert(downloaderSpy.calledWithMatch({url: DUMMY_URL}));
