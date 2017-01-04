@@ -5,7 +5,7 @@ var ImageManager = require('../imageManager.js');
 
 const DUMMY_NAME = 'dummyname';
 const DUMMY_PATH = 'dummypath/';
-// TODO: Check if \\ versus / breaks a test on *nix
+// TODO: Check if \\ versus / in DUMMY_DEST breaks a test on *nix
 const DUMMY_DEST = 'dummypath\\dummyname-latest.jpg';
 const DUMMY_URL = 'http://foo.bar/baz.jpg';
 const DUMMY_URL_NO_EXT = 'http://foo.bar/baz';
@@ -25,6 +25,10 @@ describe('imageManager', () => {
 
     afterEach(() => {
       mock.stopAll();
+    });
+
+    it('saves correct base path', () => {
+      assert(manager.basePath === DUMMY_PATH);
     });
 
     it('calls given URL', () => {
