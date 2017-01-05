@@ -2,7 +2,7 @@ var sinon = require('sinon');
 var path = require('path');
 var mock = require('mock-require');
 var assert = require('assert');
-var ImageManager = require('../imageManager.js');
+var ImageManager = require('../src/imageManager.js');
 
 const DUMMY_NAME = 'dummyname';
 const DUMMY_PATH = 'dummypath';
@@ -21,7 +21,7 @@ describe('imageManager', () => {
 
     downloaderSpy = sinon.spy();
     mock('image-downloader', downloaderSpy);
-    ImageManager = mock.reRequire('../imageManager.js');
+    ImageManager = mock.reRequire('../src/imageManager.js');
 
     manager = new ImageManager(DUMMY_PATH);
   });

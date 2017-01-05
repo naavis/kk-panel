@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Scheduler = require('../scheduler.js');
+var Scheduler = require('../src/scheduler.js');
 
 describe('Scheduler', () => {
   var scheduler = {};

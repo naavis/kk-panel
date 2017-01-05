@@ -4,8 +4,8 @@
   "description": "Komakallio Observatory Dashboard",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "node_modules\\.bin\\mocha"
+    "start": "node src/app.js",
+    "test": "node_modules/.bin/mocha"
   },
   "author": {
     "name": "Samuli Vuorinen",

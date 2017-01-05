@@ -1,6 +1,6 @@
 var assert = require('assert');
 var rewire = require('rewire');
-var sat24common = rewire('../jobs/sat24common.js');
+var sat24common = rewire('../src/jobs/sat24common.js');
 
 describe('jobs', () => {
   describe('Sat24', () => {
