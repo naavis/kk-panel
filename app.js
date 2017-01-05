@@ -22,12 +22,17 @@ scheduler.add('sat24vis', '*/5 * * * *', jobs.sat24vis, imageManager);
 scheduler.add('kumpula', '* * * * *', jobs.kumpula, imageManager);
 scheduler.startAll();
 
-app.use(express.static(path.join(__dirname, 'images')));
+// Configure Express HTTP server
+app.set('view engine', 'pug');
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use(express.static(path.join(__dirname, 'style')));
 
+// Render main page
 app.get('/', function(req, res) {
-  res.send('Hello world!');
+  res.render('index');
 });
 
+// Initialize server
 server.listen(PORT, function() {
   console.log(`Listening on port ${PORT}!`);
 });

@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+}
+
+.container div {
+    margin: 10px;
+}
+
+.container img {
+    width: 320px;
+    height: 240px;
+}
+
+.container h3 {
+    text-align: center;
+}
