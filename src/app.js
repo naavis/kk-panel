@@ -28,7 +28,7 @@ scheduler.startAll();
 // Configure Express HTTP server
 app.set('view engine', 'pug');
 app.use('/images', express.static(path.join(__dirname, '../images')));
-app.use(express.static(path.join(__dirname, '../style')));
+app.use(express.static(path.join(__dirname, '../static')));
 
 // Render main page
 app.get('/', function(req, res) {
