@@ -10,8 +10,6 @@ var io = require('socket.io')(server);
 var Scheduler = require('./scheduler.js');
 var ImageManager = require('./imageManager.js');
 
-var jobs = require('./jobs');
-
 const PORT = 3000;
 
 let panelConfig = {};
