@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'style')));
 
 // Render main page
 app.get('/', function(req, res) {
-  res.render('index');
+  res.render('index', panelConfig);
 });
 
 // Initialize server

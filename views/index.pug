@@ -4,17 +4,12 @@ html
     link(rel='stylesheet' href='example.css' type='text/css')
     title Komakallio Dashboard
   body
-    h1 Static example page
     div.container
-      div#perkkaa
-        img(src='images/perkkaa-latest.jpg' alt='Perkkaa')
-        a(href='https://www.puuppa.org/~pnuu/sky-cam/')
-          h3 Perkkaa Skycam
-      div#metsahovi
-        img(src='images/metsahovi-latest.jpeg' alt='Metsähovi')
-        a(href='http://www.metsahovi.fi/allsky-gallery')
-          h3 Metsähovi
-      div#kumpula
-        img(src='images/kumpula-latest.jpg' alt='Kumpula')
-        a(href='http://aurora.fmi.fi/public_service/suomi/latest_asc_image.html')
-          h3 Kumpula
+      each panel in panels
+        div#panel.id
+          - filename = 'images/' + panel.id + '-latest.' + panel.extension;
+          a(href=filename)
+            img(src=filename alt=panel.name)
+          a(href=panel.originalUrl)
+            h3 #{panel.name}
+

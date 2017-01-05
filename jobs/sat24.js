@@ -5,7 +5,7 @@ exports.sat24ir = function(imageManager) {
   saveSat24Image(imageManager, 'ir');
 };
 
-exports.sat24vis = function(imageManager) {
+exports.sat24visual = function(imageManager) {
   saveSat24Image(imageManager, 'visual');
 };
 
