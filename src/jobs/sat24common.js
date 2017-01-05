@@ -1,5 +1,6 @@
 var cheerio = require('cheerio');
 var request = require('request');
+var logger = require('winston');
 
 exports.saveSat24Image = function (imageManager, imageType) {
   // typeString is used in URLs to differentiate between IR images and Visual images
@@ -16,8 +17,7 @@ exports.saveSat24Image = function (imageManager, imageType) {
       throw error;
     }
     if (response.statusCode !== 200) {
-      console.log('Returned status code ' + response.statusCode);
-      // TODO: Log invalid status code when logging is in place
+      logger.warn('Returned status code ' + response.statusCode);
       return;
     }
     let $ = cheerio.load(html);

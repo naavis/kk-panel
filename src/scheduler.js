@@ -1,5 +1,6 @@
 var cron = require('node-cron');
 var jobs = require('./jobs');
+var logger = require('winston');
 
 module.exports = class Scheduler {
   constructor(...args) {
@@ -20,7 +21,7 @@ module.exports = class Scheduler {
 
   add(name, schedule, job, ...jobArguments) {
     this.jobs.set(name, cron.schedule(schedule, function() {
-      console.log(name + ' job starting');
+      logger.info(name + ' job starting');
       job(...jobArguments);
     }, false));
   }

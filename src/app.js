@@ -1,5 +1,7 @@
 var fs = require('fs');
 var path = require('path');
+var logger = require('./logger.js');
+
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
@@ -16,7 +18,7 @@ let panelConfig = {};
 try {
   panelConfig = JSON.parse(fs.readFileSync('panelConfig.json', 'utf8'));
 } catch (e) {
-  console.log('Config file is not valid JSON: ' + e);
+  logger.info('Config file is not valid JSON: ' + e);
   process.exit(-1);
 }
 
@@ -37,5 +39,5 @@ app.get('/', function(req, res) {
 
 // Initialize server
 server.listen(PORT, function() {
-  console.log(`Listening on port ${PORT}!`);
+  logger.info(`Listening on port ${PORT}!`);
 });

@@ -1,5 +1,6 @@
 var cheerio = require('cheerio');
 var request = require('request');
+var logger = require('winston');
 
 module.exports = function(imageManager) {
   const baseUrl = 'http://testbed.fmi.fi/';
@@ -8,8 +9,7 @@ module.exports = function(imageManager) {
       throw error;
     }
     if (response.statusCode !== 200) {
-      console.log('Returned status code ' + response.statusCode);
-      // TODO: Log invalid status code when logging is in place
+      logger.warn('Returned status code ' + response.statusCode);
       return;
     }
     let $ = cheerio.load(html);
