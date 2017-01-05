@@ -6,7 +6,7 @@ html
   body
     div.container
       each panel in panels
-        div#panel.id
+        div(id=panel.id)
           - filename = 'images/' + panel.id + '-latest.' + panel.extension;
           a(href=filename)
             img(src=filename alt=panel.name onerror='this.onerror="";this.src="not-loaded-image.jpg";')
