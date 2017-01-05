@@ -1,7 +1,7 @@
 var cheerio = require('cheerio');
 var request = require('request');
 
-exports.testbed = function(imageManager) {
+module.exports = function(imageManager) {
   const baseUrl = 'http://testbed.fmi.fi/';
   request(baseUrl, function(error, response, html) {
     if (error) {

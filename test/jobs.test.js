@@ -1,13 +1,13 @@
 var assert = require('assert');
 var rewire = require('rewire');
-var sat24 = rewire('../jobs/sat24.js');
+var sat24common = rewire('../jobs/sat24common.js');
 
 describe('jobs', () => {
   describe('Sat24', () => {
     describe('getSat24TypeString', () => {
       var getSat24TypeString = {};
       before(() => {
-        getSat24TypeString = sat24.__get__('getSat24TypeString');
+        getSat24TypeString = sat24common.__get__('getSat24TypeString');
       })
 
       it('returns infraPolair by default', () => {
@@ -28,7 +28,7 @@ describe('jobs', () => {
 
     describe('parseEmbeddedSat24Script', () => {
       it('parses correct timestamp from script', () => {
-        let parseEmbeddedSat24Script = sat24.__get__('parseEmbeddedSat24Script');
+        let parseEmbeddedSat24Script = sat24common.__get__('parseEmbeddedSat24Script');
         let timestamp = parseEmbeddedSat24Script(embeddedScript);
 
         assert.equal(timestamp, '201701041205');

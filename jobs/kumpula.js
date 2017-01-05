@@ -1,3 +1,3 @@
-exports.kumpula = function(imageManager) {
+module.exports = function(imageManager) {
   imageManager.saveImage('kumpula', 'http://aurora.fmi.fi/public_service/latest_DYN.jpg');
 };
