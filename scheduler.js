@@ -1,8 +1,21 @@
 var cron = require('node-cron');
+var jobs = require('./jobs');
 
 module.exports = class Scheduler {
-  constructor() {
+  constructor(...args) {
     this.jobs = new Map();
+    if (args.length === 0) {
+      return;
+    } else if (args.length === 2) {
+      let panelArray = args[0];
+      let imageManager = args[1];
+      panelArray.forEach((entry) => {
+        let currentJob = jobs[entry.id];
+        this.add(entry.id, entry.schedule, currentJob, imageManager);
+      });
+    } else {
+      throw new Error('Invalid number of arguments!');
+    }
   }
 
   add(name, schedule, job, ...jobArguments) {

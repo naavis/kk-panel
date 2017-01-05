@@ -1,3 +1,4 @@
+var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var app = express();
@@ -11,15 +12,17 @@ var jobs = require('./jobs');
 
 const PORT = 3000;
 
+let panelConfig = {};
+try {
+  panelConfig = JSON.parse(fs.readFileSync('panelConfig.json', 'utf8'));
+} catch (e) {
+  console.log('Config file is not valid JSON: ' + e);
+  process.exit(-1);
+}
+
 // Configure job schedules
-var scheduler = new Scheduler();
 var imageManager = new ImageManager('images/');
-scheduler.add('perkkaa', '30 * * * * *', jobs.perkkaa, imageManager);
-scheduler.add('metsahovi', '*/3 * * * *', jobs.metsahovi, imageManager);
-scheduler.add('testbed', '*/5 * * * *', jobs.testbed, imageManager);
-scheduler.add('sat24ir', '*/5 * * * *', jobs.sat24ir, imageManager);
-scheduler.add('sat24vis', '*/5 * * * *', jobs.sat24vis, imageManager);
-scheduler.add('kumpula', '* * * * *', jobs.kumpula, imageManager);
+var scheduler = new Scheduler(panelConfig.panels, imageManager);
 scheduler.startAll();
 
 // Configure Express HTTP server

@@ -1,0 +1,34 @@
+{
+  "panels": [
+    {
+      "name": "Perkkaa Skycam",
+      "id": "perkkaa",
+      "schedule": "30 * * * * *"
+    },
+    {
+      "name": "Metsähovi",
+      "id": "metsahovi",
+      "schedule": "*/3 * * * *"
+    },
+    {
+      "name": "FMI Testbed",
+      "id": "testbed",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "name": "Sat24 Infrared",
+      "id": "sat24ir",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "name": "Sat24 Visual",
+      "id": "sat24vis",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "name": "Kumpula",
+      "id": "kumpula",
+      "schedule": "* * * * *"
+    }
+  ]
+}
