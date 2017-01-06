@@ -32,6 +32,7 @@ app.set('view engine', 'pug');
 app.use('/images', express.static(path.join(__dirname, '../images')));
 app.use(express.static(path.join(__dirname, '../static')));
 
+// Pretty print HTML if in development
 if (app.get('env') === 'development') {
   app.locals.pretty = true;
 }
