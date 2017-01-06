@@ -21,7 +21,7 @@ module.exports = class Scheduler {
 
   add(name, schedule, job, ...jobArguments) {
     this.jobs.set(name, cron.schedule(schedule, function() {
-      logger.info(name + ' job starting');
+      logger.debug(name + ' job starting');
       job(...jobArguments);
     }, false));
   }

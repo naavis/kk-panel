@@ -16,7 +16,7 @@ let panelConfig = {};
 try {
   panelConfig = JSON.parse(fs.readFileSync('panelConfig.json', 'utf8'));
 } catch (e) {
-  logger.info('Config file is not valid JSON: ' + e);
+  logger.error('Config file is not valid JSON: ' + e);
   process.exit(-1);
 }
 
