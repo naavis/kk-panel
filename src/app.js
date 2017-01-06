@@ -11,7 +11,7 @@ var Scheduler = require('./scheduler.js');
 var ImageManager = require('./imageManager.js');
 var JobResultHandler = require('./jobResultHandler.js');
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 let panelConfig = {};
 try {
