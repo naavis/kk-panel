@@ -3,9 +3,9 @@ var jobs = require('./jobs');
 var logger = require('winston');
 
 module.exports = class Scheduler {
-  constructor(panelArray, ...args) {
+  constructor(panelArray, ...globalArguments) {
     this.jobs = new Map();
-    if (args.length === 0) {
+    if (globalArguments.length === 0) {
       return;
     }
 
@@ -15,14 +15,17 @@ module.exports = class Scheduler {
 
     panelArray.forEach((entry) => {
       let currentJob = jobs[entry.id];
-      this.add(entry.id, entry.schedule, currentJob, entry.options, ...args);
+      if (currentJob === undefined) {
+        throw new Error('Invalid job id!');
+      }
+      this.add(entry.id, entry.schedule, currentJob, entry.options, ...globalArguments);
     });
   }
 
-  add(name, schedule, job, options, ...jobArguments) {
+  add(name, schedule, job, jobOptions, ...globalArguments) {
     this.jobs.set(name, cron.schedule(schedule, function() {
       logger.debug(name + ' job starting');
-      job(...jobArguments);
+      job(...globalArguments);
     }, false));
   }
 
