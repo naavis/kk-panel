@@ -10,7 +10,7 @@ module.exports = class JobResultHandler {
       if (err) {
         throw err;
       }
-      io.emit('refresh', {id, url});
+      io.emit('refresh', {id: id, url: filename});
     });
   }
 
