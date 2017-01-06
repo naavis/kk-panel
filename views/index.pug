@@ -6,8 +6,14 @@ html
     script(src='https://code.jquery.com/jquery-3.1.1.min.js',
             integrity='sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=',
             crossorigin='anonymous')
+
+    if inProduction
+      script.
+        var hostUrl = window.location.hostname;
+        var socket = io.connect(hostUrl, {path: '/kk-panel/socket.io/'});
+    else
+      script var socket = io();
     script.
-      var socket = io();
       // Refresh image when Socket.io sends proper event
       socket.on('refresh', function(msg) {
         var newUrl = msg.url + '#' + (new Date()).getTime();
@@ -16,7 +22,7 @@ html
     title Komakallio Dashboard
   body
     div.container
-      each panel in panels
+      each panel in panelConfig.panels
         div(id=panel.id)
           - filename = 'images/' + panel.id + '-latest.' + panel.options.extension;
           a(href=filename)

@@ -12,6 +12,7 @@ var ImageManager = require('./imageManager.js');
 var JobResultHandler = require('./jobResultHandler.js');
 
 const PORT = process.env.PORT || 3000;
+const IN_PRODUCTION = process.env.NODE_ENV === 'production';
 
 let panelConfig = {};
 try {
@@ -33,7 +34,7 @@ app.use(express.static(path.join(__dirname, '../static')));
 
 // Render main page
 app.get('/', function(req, res) {
-  res.render('index', panelConfig);
+  res.render('index', {inProduction: IN_PRODUCTION, panelConfig});
 });
 
 // Initialize server
