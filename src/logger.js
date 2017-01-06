@@ -8,8 +8,10 @@ let options = {
 
 if (process.env.NODE_ENV === 'production') {
   options.filename = 'app.log';
+  options.level = 'info';
   winston.add(winston.transports.File, options);
 } else {
+  options.level = 'debug';
   winston.add(winston.transports.Console, options);
 }
 
