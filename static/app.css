@@ -9,6 +9,7 @@ a {
 .container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .container div {
@@ -19,9 +20,17 @@ a {
   background-color: rgb(60, 60, 60);
 }
 
-.container img {
-  width: 320px;
-  height: 240px;
+@media screen and (min-width: 720px) {
+  .container img {
+    width: 320px;
+    height: 240px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .container img {
+    width: 100%;
+  }
 }
 
 .container h3 {
