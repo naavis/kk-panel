@@ -2,7 +2,7 @@ var cheerio = require('cheerio');
 var request = require('request');
 var logger = require('winston');
 
-exports.saveSat24Image = function (imageManager, imageType) {
+exports.submitSat24Image = function (resultHandler, imageType) {
   // typeString is used in URLs to differentiate between IR images and Visual images
   let typeString = getSat24TypeString(imageType);
 
@@ -24,7 +24,7 @@ exports.saveSat24Image = function (imageManager, imageType) {
     const embeddedScript = $('script[type="text/javascript"]', '#content').first().text();
     const latestTimestamp = parseEmbeddedSat24Script(embeddedScript);
     const imageUrl = 'http://en.sat24.com/image?type=' + typeString + '&region=scan&timestamp=' + latestTimestamp;
-    imageManager.saveImage('sat24' + imageType, imageUrl);
+    resultHandler.submitImage('sat24' + imageType, imageUrl);
   });
 };
 

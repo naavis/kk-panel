@@ -1,3 +1,3 @@
-module.exports = function(imageManager) {
-  imageManager.saveImage('perkkaa', 'https://www.puuppa.org/~pnuu/sky-cam/latest.jpg');
+module.exports = function(resultHandler) {
+  resultHandler.submitImage('perkkaa', 'https://www.puuppa.org/~pnuu/sky-cam/latest.jpg');
 };

@@ -9,6 +9,7 @@ var io = require('socket.io')(server);
 
 var Scheduler = require('./scheduler.js');
 var ImageManager = require('./imageManager.js');
+var JobResultHandler = require('./jobResultHandler.js');
 
 const PORT = 3000;
 
@@ -21,7 +22,8 @@ try {
 }
 
 // Configure job schedules
-var scheduler = new Scheduler(panelConfig.panels, new ImageManager('images/'));
+var jobResultHandler = new JobResultHandler(io, new ImageManager('/images'));
+var scheduler = new Scheduler(panelConfig.panels, jobResultHandler);
 scheduler.startAll();
 
 // Configure Express HTTP server

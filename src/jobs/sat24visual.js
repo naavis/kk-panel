@@ -1,5 +1,5 @@
 var common = require('./sat24common.js');
 
 module.exports = function(imageManager) {
-  common.saveSat24Image(imageManager, 'visual');
+  common.submitSat24Image(imageManager, 'visual');
 };

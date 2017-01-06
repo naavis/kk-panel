@@ -17,7 +17,7 @@ module.exports = class ImageManager {
     }
   }
 
-  saveImage(name, url) {
+  saveImage(name, url, callback) {
     // Extension of resulting image file must be determined.
     // If URL doesn't contain extension of the image file, jpg will be used.
     let extension = url.split('.').pop();
@@ -26,15 +26,17 @@ module.exports = class ImageManager {
       extension = 'jpg';
     }
 
+    let doneFn = function(err, filename, image) {
+      if (err) {
+        throw err;
+      }
+    };
+
     const dest = path.join(this.basePath, name + '-latest.' + extension);
     let options = {
       url: url,
       dest: dest,
-      done: function(err, filename, image) {
-        if (err) {
-          throw err;
-        }
-      }
+      done: (callback || doneFn)
     };
     image_downloader(options);
   }
