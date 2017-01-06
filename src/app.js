@@ -32,6 +32,10 @@ app.set('view engine', 'pug');
 app.use('/images', express.static(path.join(__dirname, '../images')));
 app.use(express.static(path.join(__dirname, '../static')));
 
+if (app.get('env') === 'development') {
+  app.locals.pretty = true;
+}
+
 // Render main page
 app.get('/', function(req, res) {
   res.render('index', {inProduction: IN_PRODUCTION, panelConfig});
