@@ -12,7 +12,7 @@
     {
       "name": "Metsähovi",
       "id": "metsahovi",
-      "schedule": "*/3 * * * *",
+      "schedule": "30 */3 * * * *",
       "options": {
         "extension": "jpeg",
         "originalUrl": "http://www.metsahovi.fi/allsky-gallery"
