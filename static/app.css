@@ -20,7 +20,14 @@ a {
   background-color: rgb(60, 60, 60);
 }
 
-@media screen and (min-width: 720px) {
+@media screen and (min-width: 1680px) {
+  .container img {
+    width: 520px;
+    height: 390px;
+  }
+}
+
+@media screen and (min-width: 720px) and (max-width: 1680px) {
   .container img {
     width: 320px;
     height: 240px;
