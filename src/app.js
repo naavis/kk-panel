@@ -22,7 +22,7 @@ try {
 }
 
 // Configure job schedules
-var jobResultHandler = new JobResultHandler(io, new ImageManager('/images'));
+var jobResultHandler = new JobResultHandler(io, new ImageManager('images/'));
 var scheduler = new Scheduler(panelConfig.panels, jobResultHandler);
 scheduler.startAll();
 
