@@ -21,8 +21,7 @@ try {
 }
 
 // Configure job schedules
-var imageManager = new ImageManager('images/');
-var scheduler = new Scheduler(panelConfig.panels, imageManager);
+var scheduler = new Scheduler(panelConfig.panels, new ImageManager('images/'));
 scheduler.startAll();
 
 // Configure Express HTTP server
