@@ -16,12 +16,16 @@ describe('Scheduler', () => {
       {
         "name": "Perkkaa Skycam",
         "id": "perkkaa",
-        "schedule": "30 * * * * *"
+        "schedule": "30 * * * * *",
+        "options": {
+        }
       },
       {
         "name": "Metsähovi",
         "id": "metsahovi",
-        "schedule": "*/3 * * * *"
+        "schedule": "*/3 * * * *",
+        "options": {
+        }
       }
     ];
     scheduler = new Scheduler(panelArray, null);
@@ -31,7 +35,7 @@ describe('Scheduler', () => {
 
   describe('#add', () => {
     it('adds task to job list', () => {
-      scheduler.add('test job', '* * * * *', () => {}, []);
+      scheduler.add('test job', '* * * * *', () => {}, {}, null);
       assert.notEqual(scheduler.jobs.get('test job'), undefined);
     });
     // TODO: Add tests for cases when job doesn't exist

@@ -4,43 +4,55 @@
       "name": "Perkkaa",
       "id": "perkkaa",
       "schedule": "30 * * * * *",
-      "extension": "jpg",
-      "originalUrl": "http://www.puuppa.org/~pnuu/sky-cam/"
+      "options": {
+        "extension": "jpg",
+        "originalUrl": "http://www.puuppa.org/~pnuu/sky-cam/"
+      }
     },
     {
       "name": "Metsähovi",
       "id": "metsahovi",
       "schedule": "*/3 * * * *",
-      "extension": "jpeg",
-      "originalUrl": "http://www.metsahovi.fi/allsky-gallery"
+      "options": {
+        "extension": "jpeg",
+        "originalUrl": "http://www.metsahovi.fi/allsky-gallery"
+      }
     },
     {
       "name": "FMI Testbed",
       "id": "testbed",
       "schedule": "*/5 * * * *",
-      "extension": "png",
-      "originalUrl": "http://testbed.fmi.fi/history_browser.php?imgtype=radar&t=5&n=15"
+      "options": {
+        "extension": "png",
+        "originalUrl": "http://testbed.fmi.fi/history_browser.php?imgtype=radar&t=5&n=15"
+      }
     },
     {
       "name": "Sat24 Infrared",
       "id": "sat24ir",
       "schedule": "*/5 * * * *",
-      "extension": "jpg",
-      "originalUrl": "http://en.sat24.com/en/scan/infraPolair"
+      "options": {
+        "extension": "jpg",
+        "originalUrl": "http://en.sat24.com/en/scan/infraPolair"
+      }
     },
     {
       "name": "Sat24 Visual",
       "id": "sat24visual",
       "schedule": "*/5 * * * *",
-      "extension": "jpg",
-      "originalUrl": "http://en.sat24.com/en/scan/visual5"
+      "options": {
+        "extension": "jpg",
+        "originalUrl": "http://en.sat24.com/en/scan/visual5"
+      }
     },
     {
       "name": "Kumpula",
       "id": "kumpula",
       "schedule": "* * * * *",
-      "extension": "jpg",
-      "originalUrl": "http://aurora.fmi.fi/public_service/suomi/latest_asc_image.html"
+      "options": {
+        "extension": "jpg",
+        "originalUrl": "http://aurora.fmi.fi/public_service/suomi/latest_asc_image.html"
+      }
     }
   ]
 }

@@ -3,23 +3,23 @@ var jobs = require('./jobs');
 var logger = require('winston');
 
 module.exports = class Scheduler {
-  constructor(...args) {
+  constructor(panelArray, ...args) {
     this.jobs = new Map();
     if (args.length === 0) {
       return;
-    } else if (args.length === 2) {
-      let panelArray = args[0];
-      let imageManager = args[1];
-      panelArray.forEach((entry) => {
-        let currentJob = jobs[entry.id];
-        this.add(entry.id, entry.schedule, currentJob, imageManager);
-      });
-    } else {
-      throw new Error('Invalid number of arguments!');
     }
+
+    if (panelArray === undefined || panelArray.length === 0) {
+      return;
+    }
+
+    panelArray.forEach((entry) => {
+      let currentJob = jobs[entry.id];
+      this.add(entry.id, entry.schedule, currentJob, entry.options, ...args);
+    });
   }
 
-  add(name, schedule, job, ...jobArguments) {
+  add(name, schedule, job, options, ...jobArguments) {
     this.jobs.set(name, cron.schedule(schedule, function() {
       logger.debug(name + ' job starting');
       job(...jobArguments);
