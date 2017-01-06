@@ -53,6 +53,24 @@
         "extension": "jpg",
         "originalUrl": "http://aurora.fmi.fi/public_service/suomi/latest_asc_image.html"
       }
+    },
+    {
+      "name": "Tampere Allsky",
+      "id": "tampere_allsky",
+      "schedule": "*/5 * * * *",
+      "options": {
+        "extension": "jpg",
+        "originalUrl": "http://tampereenursa.fi/"
+      }
+    },
+        {
+      "name": "Tampere NE",
+      "id": "tampere_northeast",
+      "schedule": "*/5 * * * *",
+      "options": {
+        "extension": "jpg",
+        "originalUrl": "http://tampereenursa.fi/"
+      }
     }
   ]
 }
