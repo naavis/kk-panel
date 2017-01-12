@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 ### Added
 - Prevent caching of images in the browser
+- Log Socket.io messages in browser
 
 ### Changed
 - Adjust job schedules for Kumpula and Tampere cameras
