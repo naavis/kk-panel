@@ -30,7 +30,7 @@ scheduler.startAll();
 // Configure Express HTTP server
 app.set('view engine', 'pug');
 app.use('/images', express.static(path.join(__dirname, '../images')));
-app.use(express.static(path.join(__dirname, '../static')));
+app.use(express.static(path.join(__dirname, '../static'), { maxage: 0 }));
 
 // Pretty print HTML if in development
 if (app.get('env') === 'development') {
@@ -38,11 +38,11 @@ if (app.get('env') === 'development') {
 }
 
 // Render main page
-app.get('/', function(req, res) {
-  res.render('index', {inProduction: IN_PRODUCTION, panelConfig});
+app.get('/', function (req, res) {
+  res.render('index', { inProduction: IN_PRODUCTION, panelConfig });
 });
 
 // Initialize server
-server.listen(PORT, function() {
+server.listen(PORT, function () {
   logger.info(`Listening on port ${PORT}!`);
 });
