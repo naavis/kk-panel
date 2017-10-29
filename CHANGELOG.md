@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.4.0 - 2017-10-29
+### Added
+- Add Hankasalmi Allsky camera
+
+## Changed
+- Replace Tampere NE with Tampere North
+- Change Tampere Allsky URL
+
 ## 1.3.0 - 2017-10-29
 ### Changed
 - Errors during job execution get logged instead of crashing whole program
