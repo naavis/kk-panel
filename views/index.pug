@@ -10,7 +10,7 @@ html
     if inProduction
       script.
         var hostUrl = window.location.hostname;
-        var socket = io.connect(hostUrl, {path: '/kk-panel/socket.io/'});
+        var socket = io.connect(hostUrl, {path: '/socket.io/'});
     else
       script var socket = io();
     script.

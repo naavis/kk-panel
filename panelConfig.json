@@ -60,7 +60,7 @@
       "schedule": "30 */5 * * * *",
       "options": {
         "extension": "jpg",
-        "originalUrl": "http://tampereenursa.fi/"
+        "originalUrl": "http://www.tampereenursa.fi/"
       }
     },
         {
@@ -69,7 +69,7 @@
       "schedule": "30 */5 * * * *",
       "options": {
         "extension": "jpg",
-        "originalUrl": "http://tampereenursa.fi/"
+        "originalUrl": "http://www.tampereenursa.fi/"
       }
     }
   ]
