@@ -17,7 +17,11 @@ module.exports = class Scheduler {
   add(name, schedule, options, job, resultHandler) {
     this.jobs.set(name, cron.schedule(schedule, function() {
       logger.debug(name + ' job starting');
-      job(resultHandler);
+      try {
+        job(resultHandler);
+      } catch (err) {
+        logger.error(name + ': error! ' + err);
+      }
     }, false));
   }
 
