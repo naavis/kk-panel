@@ -23,7 +23,7 @@
       "id": "testbed",
       "schedule": "*/5 * * * *",
       "options": {
-        "extension": "png",
+        "extension": "jpg",
         "originalUrl": "http://testbed.fmi.fi/"
       }
     },
