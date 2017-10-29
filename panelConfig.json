@@ -51,7 +51,7 @@
       "schedule": "30 * * * * *",
       "options": {
         "extension": "jpg",
-        "originalUrl": "http://aurora.fmi.fi/public_service/suomi/latest_asc_image.html"
+        "originalUrl": "http://aurorasnow.fmi.fi/public_service/suomi/latest_asc_image.html"
       }
     },
     {
