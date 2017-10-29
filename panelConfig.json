@@ -24,7 +24,7 @@
       "schedule": "*/5 * * * *",
       "options": {
         "extension": "png",
-        "originalUrl": "http://testbed.fmi.fi/history_browser.php?imgtype=radar&t=5&n=15"
+        "originalUrl": "http://testbed.fmi.fi/"
       }
     },
     {

@@ -3,7 +3,7 @@ var request = require('request');
 var logger = require('winston');
 
 module.exports = function(resultHandler) {
-  const baseUrl = 'http://testbed.fmi.fi/';
+  const baseUrl = 'http://testbed.fmi.fi/?imgtype=radar&t=5&n=1';
   request(baseUrl, function(error, response, html) {
     if (error) {
       throw error;
@@ -13,8 +13,7 @@ module.exports = function(resultHandler) {
       return;
     }
     let $ = cheerio.load(html);
-    let relativeUrl = $('img[alt="Radar & temperature"]').attr('src');
-    const completeUrl = baseUrl + relativeUrl;
-    resultHandler.submitImage('testbed', completeUrl);
+    const imageUrl = $('img[id="anim_image_anim_anim"]').attr('src');
+    resultHandler.submitImage('testbed', imageUrl);
   });
 };
