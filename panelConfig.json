@@ -64,8 +64,8 @@
       }
     },
         {
-      "name": "Tampere NE",
-      "id": "tampere_northeast",
+      "name": "Tampere North",
+      "id": "tampere_north",
       "schedule": "30 */5 * * * *",
       "options": {
         "extension": "jpg",
