@@ -1,6 +1,6 @@
 {
   "name": "kk-panel",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Komakallio Observatory Dashboard",
   "scripts": {
     "start": "node src/app.js",
