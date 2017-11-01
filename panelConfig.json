@@ -73,6 +73,15 @@
       }
     },
     {
+      "name": "Tähtikallio Allsky",
+      "id": "tahtikallio",
+      "schedule": "30 * * * * *",
+      "options": {
+        "extension": "jpg",
+        "originalUrl": "https://www.ursa.fi/tahtikallio.html"
+      }
+    },
+    {
       "name": "Hankasalmi Allsky",
       "id": "hankasalmi",
       "schedule": "30 * * * * *",
