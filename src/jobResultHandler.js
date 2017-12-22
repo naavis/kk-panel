@@ -1,3 +1,5 @@
+var logger = require('winston');
+
 module.exports = class JobResultHandler {
   constructor(io, imageManager) {
     this.io = io;
@@ -8,9 +10,10 @@ module.exports = class JobResultHandler {
     var io = this.io;
     this.imageManager.saveImage(id, url, function done(err, filename, image) {
       if (err) {
-        throw err;
+        logger.error('Problem with ' + url + ' - ' + err.message);
+      } else {
+        io.emit('refresh', {id: id, url: filename});
       }
-      io.emit('refresh', {id: id, url: filename});
     });
   }
 

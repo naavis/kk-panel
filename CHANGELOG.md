@@ -4,12 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Fixed
+- Fix unhandled error when receiving HTTP 403 from a server.
+
 ## 1.6.0 - 2017-11-07
-## Changed
+### Changed
 - Change Tampere North URL
 
 ## 1.5.0 - 2017-11-01
-## Added
+### Added
 - Add Tähtikallio allsky camera
 
 ## 1.4.0 - 2017-10-29
