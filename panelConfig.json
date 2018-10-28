@@ -46,6 +46,15 @@
       }
     },
     {
+      "name": "Darkness graph",
+      "id": "sun_moon_kk",
+      "schedule": "*/2 * * * *",
+      "options": {
+        "extension": "png",
+        "originalUrl": "https://www.ursa.fi/~lkangas/kk/"
+      }
+    },
+    {
       "name": "Tampere Allsky",
       "id": "tampere_allsky",
       "schedule": "30 */5 * * * *",
