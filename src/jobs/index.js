@@ -8,3 +8,4 @@ exports.tampere_allsky = require('./tampere_allsky.js');
 exports.tampere_north = require('./tampere_north.js');
 exports.hankasalmi = require('./hankasalmi.js');
 exports.tahtikallio = require('./tahtikallio.js');
+exports.sun_moon_kk = require('./sun_moon_kk.js');

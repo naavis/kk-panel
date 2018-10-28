@@ -46,12 +46,12 @@
       }
     },
     {
-      "name": "Kumpula",
-      "id": "kumpula",
-      "schedule": "30 * * * * *",
+      "name": "Darkness graph",
+      "id": "sun_moon_kk",
+      "schedule": "*/2 * * * *",
       "options": {
-        "extension": "jpg",
-        "originalUrl": "http://aurorasnow.fmi.fi/public_service/suomi/latest_asc_image.html"
+        "extension": "png",
+        "originalUrl": "https://www.ursa.fi/~lkangas/kk/"
       }
     },
     {

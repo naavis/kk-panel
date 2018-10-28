@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.7.0 - 2018-10-28
+## Added
+- Add darkness graph to panel
+
+## Changed
+- Remove Kumpula from panel for now
+
 ## 1.6.1 - 2017-12-22
 ### Fixed
 - Fix unhandled error when receiving HTTP 403 from a server.
