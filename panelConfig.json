@@ -46,15 +46,6 @@
       }
     },
     {
-      "name": "Kumpula",
-      "id": "kumpula",
-      "schedule": "30 * * * * *",
-      "options": {
-        "extension": "jpg",
-        "originalUrl": "http://aurorasnow.fmi.fi/public_service/suomi/latest_asc_image.html"
-      }
-    },
-    {
       "name": "Tampere Allsky",
       "id": "tampere_allsky",
       "schedule": "30 */5 * * * *",
