@@ -1,14 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](http://keepachangelog.com/).
+
+## 20190210.0.0 - 2019-02-10
+### Changed
+- Switched from Semantic versioning to date-based versioning
+- Dockerize application
 
 ## 1.7.0 - 2018-10-28
-## Added
+### Added
 - Add darkness graph to panel
 
-## Changed
+### Changed
 - Remove Kumpula from panel for now
 
 ## 1.6.1 - 2017-12-22
