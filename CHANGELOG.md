@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## Unreleased
 ### Changed
 - Switched from Semantic versioning to date-based versioning
+- Dockerize application
 
 ## 1.7.0 - 2018-10-28
 ### Added

@@ -8,6 +8,12 @@ in Kirkkonummi, Finland.
 
 Installation
 ------------
+The recommended way of installing is to use Docker Compose and run:
+```
+docker-compose up -d
+```
+
+If you want to install the panel manually without Docker, run the following:
 ```
 npm install
 npm test
