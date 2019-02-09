@@ -1,6 +1,6 @@
 {
   "name": "kk-panel",
-  "version": "1.7.0",
+  "version": "20190210.0.0",
   "description": "Komakallio Observatory Dashboard",
   "scripts": {
     "start": "node src/app.js",
@@ -9,7 +9,7 @@
   "author": {
     "name": "Samuli Vuorinen",
     "email": "samuli.vuorinen@iki.fi",
-    "url": "samulivuorinen.com"
+    "url": "https://www.samulivuorinen.com"
   },
   "license": "ISC",
   "dependencies": {
