@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## Unreleased
+## 20190217.0.0 - 2019-02-17
 ### Changed
 - Updated pug
 
