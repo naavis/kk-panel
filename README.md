@@ -8,14 +8,13 @@ in Kirkkonummi, Finland.
 
 Installation
 ------------
-The recommended way of installing is to use Docker Compose and run:
-```
-docker-compose up -d
-```
-
-If you want to install the panel manually without Docker, run the following:
+Execute the following commands to run the panel:
 ```
 npm install
 npm test
 npm start
 ```
+
+You can also use the `Dockerfile` to build a docker image and run it in a container.
+`docker-compose.yml` is written to use a bridge network called `common-network`,
+so it can be served via an nginx proxy also running in a Docker container.
