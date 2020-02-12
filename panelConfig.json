@@ -55,6 +55,15 @@
       }
     },
     {
+      "name": "Bromarv Allsky",
+      "id": "bromarv",
+      "schedule": "*/1 * * * *",
+      "options": {
+        "extension": "jpg",
+        "originalUrl": "https://bromarv-astro.cloud/allsky-latest.jpg"
+      }
+    },
+    {
       "name": "Tampere Allsky",
       "id": "tampere_allsky",
       "schedule": "30 */5 * * * *",
