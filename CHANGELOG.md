@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## Unreleased
+## 20200212.1.0 - 2020-02-12
 ### Added
 - Add Bromarv allsky camera
 
