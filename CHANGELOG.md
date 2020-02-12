@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 20200212.0.0 - 2020-02-12
+### Fixed
+- Update lodash and lodash.merge to fix security vulnerabilities
+
 ## 20190217.1.0 - 2019-02-17
 ### Changed
 - Change docker-compose.yml so it can be used with a Nginx proxy
