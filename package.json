@@ -13,7 +13,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "cheerio": "^0.22.0",
+    "cheerio": "^1.0.0-rc.12",
     "express": "^4.14.0",
     "image-downloader": "^2.0.1",
     "node-cron": "^1.1.2",
