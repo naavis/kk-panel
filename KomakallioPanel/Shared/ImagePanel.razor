@@ -1,12 +1,19 @@
-﻿<div id="perkkaa">
-	<a href="https://komakallio.avaruusasema.org/images/perkkaa-latest.jpg">
-		<img src="https://komakallio.avaruusasema.org/images/perkkaa-latest.jpg" />
+﻿<div id="@Id">
+	<a href="https://komakallio.avaruusasema.org/images/@Id-latest.jpg">
+		<img src="https://komakallio.avaruusasema.org/images/@Id-latest.jpg" />
 	</a>
 	<h3>
-		<a href="http://www.puuppa.org/~pnuu/sky-cam/">Perkkaa</a>
+		<a href="@SourceUrl">@DisplayName</a>
 	</h3>
 </div>
 
 @code {
+	[Parameter]
+	public string Id { get; set; } = "default-id";
 
+	[Parameter]
+	public string DisplayName { get; set; } = "N/A";
+
+	[Parameter]
+	public string SourceUrl { get; set; } = "/";
 }
