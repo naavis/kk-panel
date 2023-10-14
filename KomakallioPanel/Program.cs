@@ -3,7 +3,10 @@ using KomakallioPanel.Jobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHangfire(config => config.UseInMemoryStorage());
+builder.Services.AddHangfire(config =>
+    config.UseInMemoryStorage()
+          .UseSimpleAssemblyNameTypeSerializer()
+          .UseRecommendedSerializerSettings());
 builder.Services.AddHangfireServer();
 
 builder.Services.AddRazorPages();
