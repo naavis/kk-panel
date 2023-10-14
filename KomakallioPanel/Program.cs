@@ -1,4 +1,11 @@
+using Hangfire;
+using KomakallioPanel.Jobs;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHangfire(config => config.UseInMemoryStorage());
+builder.Services.AddHangfireServer();
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
@@ -18,5 +25,7 @@ app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+app.UseRecurringJobs();
 
 app.Run();
