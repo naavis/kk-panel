@@ -7,8 +7,10 @@ namespace KomakallioPanel.Jobs
         public static void UseRecurringJobs(this WebApplication app)
         {
             var recurringJobs = app.Services.GetRequiredService<IRecurringJobManager>();
-            recurringJobs.AddOrUpdate("testJob", () => Console.WriteLine("Hello from a recurring job"), "*/10 * * * * *");
-            recurringJobs.Trigger("testJob");
+            recurringJobs.AddOrUpdate<ImageDownloadJob>("metsahovi",
+                                                        job => job.ExecuteAsync("metsahovi", new Uri("https://data.metsahovi.fi/allsky/latest_hf.jpeg"), true),
+                                                        "30 */3 * * * *");
+            recurringJobs.Trigger("metsahovi");
         }
     }
 }
