@@ -4,11 +4,13 @@
     {
         private readonly ILogger<ImageDownloadJob> logger;
         private readonly IHttpClientFactory httpClientFactory;
+        private readonly IImageUpdateNotifier notifier;
 
-        public ImageDownloadJob(ILogger<ImageDownloadJob> logger, IHttpClientFactory httpClientFactory)
+        public ImageDownloadJob(ILogger<ImageDownloadJob> logger, IHttpClientFactory httpClientFactory, IImageUpdateNotifier notifier)
         {
             this.logger = logger;
             this.httpClientFactory = httpClientFactory;
+            this.notifier = notifier;
         }
 
         public async Task ExecuteAsync(string key, Uri imageSource, bool onlyLatest = true)
@@ -43,7 +45,7 @@
 
             logger.LogInformation("Finished writing to {filename}", outputFilename);
 
-            // TODO: Notify somehow that image was finished so frontend can be updated?
+            notifier.Changed(key, outputFilename);
         }
     }
 }

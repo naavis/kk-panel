@@ -9,6 +9,8 @@ builder.Services.AddHangfire(config =>
           .UseRecommendedSerializerSettings());
 builder.Services.AddHangfireServer();
 
+builder.Services.AddSingleton<IImageUpdateNotifier, ImageUpdateNotifier>();
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
