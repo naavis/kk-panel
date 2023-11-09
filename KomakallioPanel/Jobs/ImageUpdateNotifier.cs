@@ -4,6 +4,12 @@ namespace KomakallioPanel.Jobs
 	public class ImageUpdateNotifier : IImageUpdateNotifier
 	{
 		private readonly IDictionary<string, List<Action>> callbacks = new Dictionary<string, List<Action>>();
+		private readonly ILogger<ImageUpdateNotifier> logger;
+
+		public ImageUpdateNotifier(ILogger<ImageUpdateNotifier> logger)
+		{
+			this.logger = logger;
+		}
 
 		public void Changed(string key, string outputFilename)
 		{
@@ -18,9 +24,9 @@ namespace KomakallioPanel.Jobs
 				{
 					callback.Invoke();
 				}
-				catch
+				catch (Exception ex)
 				{
-					// TODO: Log exceptions from callbacks
+					logger.LogError("Callback for key '{key}' threw an exception: '{exception}'", key, ex.Message);
 				}
 			}
 		}
