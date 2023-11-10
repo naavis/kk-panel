@@ -1,13 +1,23 @@
 ﻿@page "/"
+@using KomakallioPanel.Jobs
 @using KomakallioPanel.Shared
+@inject IImageManagerThingy ImageManager
 
 <div class="container">
-	<ImagePanel Id="metsahovi" DisplayName="Metsähovi" SourceUrl="https://www.metsahovi.fi/allsky-gallery" />
-	<ImagePanel Id="testbed" DisplayName="FMI Testbed" SourceUrl="https://testbed.fmi.fi" />
-	<ImagePanel Id="sat24ir" DisplayName="Sat24 Infrared" SourceUrl="https://www.sat24.com/en-gb/country/se/hd#selectedLayer=euInfra" />
-	<ImagePanel Id="sat24visual" DisplayName="Sat24 Visual" SourceUrl="https://www.sat24.com/en-gb/country/se/hd#selectedLayer=euVisible" />
-	<ImagePanel Id="sun_moon_kk" DisplayName="Darkness Graph" SourceUrl="https://www.ursa.fi/~lkangas/kk/" />
-	<ImagePanel Id="bromarv" DisplayName="Bromarv Allsky" SourceUrl="https://bromarv-astro.cloud/allsky-latest.jpg" />
-	<ImagePanel Id="tahtikallio" DisplayName="Tähtikallio Allsky" SourceUrl="https://www.ursa.fi/tahtikallio.html" />
-	<ImagePanel Id="hankasalmi" DisplayName="Hankasalmi Allsky" SourceUrl="https://www.ursa.fi/yhd/sirius/sivut/" />
+	@if (imageSettings is not null)
+	{
+		@foreach (var i in imageSettings)
+		{
+			<ImagePanel Id="@i.Id" DisplayName="@i.DisplayName" SourceUrl="@i.SourcePage.ToString()" />
+		}
+	}
 </div>
+
+@code {
+	private IReadOnlyList<ImageSettings>? imageSettings;
+
+	protected override void OnInitialized()
+	{
+		imageSettings = ImageManager.GetImages();
+	}
+}

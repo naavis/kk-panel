@@ -4,18 +4,19 @@ namespace KomakallioPanel.Jobs
 {
 	public static class WebApplicationExtensions
 	{
-		public static void UseRecurringJobs(this WebApplication app)
+		public static void ConfigureJobs(this WebApplication app)
 		{
-			var recurringJobs = app.Services.GetRequiredService<IRecurringJobManager>();
-			AddJob(recurringJobs, "metsahovi", new Uri("https://data.metsahovi.fi/allsky/latest_hf.jpeg"), "30 */3 * * * *");
-		}
-
-		private static void AddJob(IRecurringJobManager recurringJobs, string key, Uri imageSource, string cronSchedule)
-		{
-			recurringJobs.AddOrUpdate<ImageDownloadJob>(key,
-														job => job.ExecuteAsync(key, imageSource, true),
-														cronSchedule);
-			recurringJobs.Trigger(key);
+			var imageManager = app.Services.GetRequiredService<IImageManagerThingy>();
+			imageManager.Add(new ImageSettings("metsahovi",
+											   "Metsähovi",
+											   new Uri("https://www.metsahovi.fi/allsky-gallery"),
+											   new Uri("https://data.metsahovi.fi/allsky/latest_hf")),
+							 "30 */3 * * * *");
+			imageManager.Add(new ImageSettings("hankasalmi",
+											   "Hankasalmi Allsky",
+											   new Uri("http://www.ursa.fi/yhd/sirius/sivut/"),
+											   new Uri("http://murtoinen.jklsirius.fi/ccd/skywatch/ImageLastFTP_AllSKY.jpg")),
+							 "30 * * * * *");
 		}
 	}
 }
