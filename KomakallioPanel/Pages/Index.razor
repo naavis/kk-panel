@@ -31,9 +31,9 @@
 
     private void UpdatePanelValues()
     {
-		panelValues = ImageManager
-			.GetImages()
-			.Select(i => (i.Id, i.DisplayName, i.SourcePage.ToString(), Random.Shared.NextInt64().ToString()))
-			.ToList();
+        panelValues = ImageManager
+            .GetImages()
+            .Select(i => (i.Id, i.DisplayName, i.SourcePage.ToString(), Random.Shared.NextInt64().ToString()))
+            .ToList();
     }
 }

@@ -1,22 +1,22 @@
 ﻿<div id="@Id">
-	<a href="@Id-latest.jpg">
-		<img src="@Id-latest.jpg?cachebuster=@CacheBuster" />
-	</a>
-	<h3>
-		<a href="@SourceUrl">@DisplayName</a>
-	</h3>
+    <a href="@Id-latest.jpg">
+        <img src="@Id-latest.jpg?cachebuster=@CacheBuster" />
+    </a>
+    <h3>
+        <a href="@SourceUrl">@DisplayName</a>
+    </h3>
 </div>
 
 @code {
-	[Parameter]
-	public string Id { get; set; } = "default-id";
+    [Parameter]
+    public string Id { get; set; } = "default-id";
 
-	[Parameter]
-	public string DisplayName { get; set; } = "N/A";
+    [Parameter]
+    public string DisplayName { get; set; } = "N/A";
 
-	[Parameter]
-	public string SourceUrl { get; set; } = "/";
+    [Parameter]
+    public string SourceUrl { get; set; } = "/";
 
-	[Parameter]
-	public string CacheBuster { get; set; } = "";
+    [Parameter]
+    public string CacheBuster { get; set; } = "";
 }
