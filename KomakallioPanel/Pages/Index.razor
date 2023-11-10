@@ -19,5 +19,16 @@
 	protected override void OnInitialized()
 	{
 		imageSettings = ImageManager.GetImages();
+		ImageManager.ListChanged += HandleListChanged!;
+	}
+
+	private async void HandleListChanged(object sender, EventArgs e)
+	{
+		await InvokeAsync(() =>
+		{
+			// TODO: This still doesn't seem to update any of the images, probably because
+			// none of the ImageSettings actually change, so the panels are not rerendered
+			StateHasChanged();
+		});
 	}
 }

@@ -4,11 +4,13 @@
 	{
 		private readonly ILogger<ImageDownloadJob> logger;
 		private readonly IHttpClientFactory httpClientFactory;
+		private readonly IImageManagerThingy imageManager;
 
-		public ImageDownloadJob(ILogger<ImageDownloadJob> logger, IHttpClientFactory httpClientFactory)
+		public ImageDownloadJob(ILogger<ImageDownloadJob> logger, IHttpClientFactory httpClientFactory, IImageManagerThingy imageManager)
 		{
 			this.logger = logger;
 			this.httpClientFactory = httpClientFactory;
+			this.imageManager = imageManager;
 		}
 
 		public async Task ExecuteAsync(string key, Uri imageSource, bool onlyLatest = true)
@@ -42,6 +44,7 @@
 			await inputImage.SaveAsJpegAsync($"wwwroot/{outputFilename}");
 
 			logger.LogInformation("Finished writing to {filename}", outputFilename);
+			imageManager.NotifyListChanged();
 		}
 	}
 }

@@ -8,6 +8,10 @@ namespace KomakallioPanel.Jobs
 	{
 		void Add(ImageSettings image, string cronSchedule);
 		List<ImageSettings> GetImages();
+
+		public event EventHandler? ListChanged;
+
+		public void NotifyListChanged();
 	}
 
 	public class ImageManagerThingy : IImageManagerThingy
@@ -31,5 +35,12 @@ namespace KomakallioPanel.Jobs
 		}
 
 		public List<ImageSettings> GetImages() => images;
+
+		public event EventHandler? ListChanged;
+
+		public void NotifyListChanged()
+		{
+			ListChanged?.Invoke(this, EventArgs.Empty);
+		}
 	}
 }

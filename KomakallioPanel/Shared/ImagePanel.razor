@@ -1,6 +1,6 @@
 ﻿<div id="@Id">
 	<a href="@Id-latest.jpg">
-		<img src="@Id-latest.jpg" />
+		<img src="@Id-latest.jpg?cachebuster=@Random.Shared.NextInt64()" />
 	</a>
 	<h3>
 		<a href="@SourceUrl">@DisplayName</a>
