@@ -2,18 +2,6 @@
 
 namespace KomakallioPanel.Jobs
 {
-	public record ImageSettings(string Id, string DisplayName, Uri SourcePage, Uri ImageSource);
-
-	public interface IImageManager
-	{
-		void Add(ImageSettings image, string cronSchedule);
-		List<ImageSettings> GetImages();
-
-		public event EventHandler? ListChanged;
-
-		public void NotifyListChanged();
-	}
-
 	public class ImageManager : IImageManager
 	{
 		private readonly IRecurringJobManager backgroundJobs;
