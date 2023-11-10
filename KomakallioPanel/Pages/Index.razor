@@ -4,31 +4,36 @@
 @inject IImageManager ImageManager
 
 <div class="container">
-	@if (imageSettings is not null)
-	{
-		@foreach (var i in imageSettings)
-		{
-			<ImagePanel Id="@i.Id" DisplayName="@i.DisplayName" SourceUrl="@i.SourcePage.ToString()" />
-		}
-	}
+    @foreach (var p in panelValues)
+    {
+        <ImagePanel Id="@p.id" DisplayName="@p.displayName" SourceUrl="@p.sourceUrl" cacheBuster="@p.cacheBuster" />
+    }
 </div>
 
 @code {
-	private IReadOnlyList<ImageSettings>? imageSettings;
+    List<(string id, string displayName, string sourceUrl, string cacheBuster)> panelValues = new();
 
-	protected override void OnInitialized()
-	{
-		imageSettings = ImageManager.GetImages();
-		ImageManager.ListChanged += HandleListChanged!;
-	}
+    protected override void OnInitialized()
+    {
+        UpdatePanelValues();
+        ImageManager.ListChanged += HandleListChanged!;
+    }
 
-	private async void HandleListChanged(object sender, EventArgs e)
-	{
-		await InvokeAsync(() =>
-		{
-			// TODO: This still doesn't seem to update any of the images, probably because
-			// none of the ImageSettings actually change, so the panels are not rerendered
-			StateHasChanged();
-		});
-	}
+    private async void HandleListChanged()
+    {
+        // TODO: Only update the image that has changed and not all of them
+        await InvokeAsync(() =>
+        {
+            UpdatePanelValues();
+            StateHasChanged();
+        });
+    }
+
+    private void UpdatePanelValues()
+    {
+		panelValues = ImageManager
+			.GetImages()
+			.Select(i => (i.Id, i.DisplayName, i.SourcePage.ToString(), Random.Shared.NextInt64().ToString()))
+			.ToList();
+    }
 }
