@@ -9,7 +9,7 @@ builder.Services.AddHangfire(config =>
 		  .UseRecommendedSerializerSettings());
 builder.Services.AddHangfireServer();
 
-builder.Services.AddSingleton<IImageManagerThingy, ImageManagerThingy>();
+builder.Services.AddSingleton<IImageManager, ImageManager>();
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();

@@ -4,9 +4,9 @@
 	{
 		private readonly ILogger<ImageDownloadJob> logger;
 		private readonly IHttpClientFactory httpClientFactory;
-		private readonly IImageManagerThingy imageManager;
+		private readonly IImageManager imageManager;
 
-		public ImageDownloadJob(ILogger<ImageDownloadJob> logger, IHttpClientFactory httpClientFactory, IImageManagerThingy imageManager)
+		public ImageDownloadJob(ILogger<ImageDownloadJob> logger, IHttpClientFactory httpClientFactory, IImageManager imageManager)
 		{
 			this.logger = logger;
 			this.httpClientFactory = httpClientFactory;

@@ -6,7 +6,7 @@ namespace KomakallioPanel.Jobs
 	{
 		public static void ConfigureJobs(this WebApplication app)
 		{
-			var imageManager = app.Services.GetRequiredService<IImageManagerThingy>();
+			var imageManager = app.Services.GetRequiredService<IImageManager>();
 			imageManager.Add(new ImageSettings("metsahovi",
 											   "Metsähovi",
 											   new Uri("https://www.metsahovi.fi/allsky-gallery"),

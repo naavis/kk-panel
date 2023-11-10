@@ -4,7 +4,7 @@ namespace KomakallioPanel.Jobs
 {
 	public record ImageSettings(string Id, string DisplayName, Uri SourcePage, Uri ImageSource);
 
-	public interface IImageManagerThingy
+	public interface IImageManager
 	{
 		void Add(ImageSettings image, string cronSchedule);
 		List<ImageSettings> GetImages();
@@ -14,12 +14,12 @@ namespace KomakallioPanel.Jobs
 		public void NotifyListChanged();
 	}
 
-	public class ImageManagerThingy : IImageManagerThingy
+	public class ImageManager : IImageManager
 	{
 		private readonly IRecurringJobManager backgroundJobs;
 		private readonly List<ImageSettings> images = new();
 
-		public ImageManagerThingy(IRecurringJobManager backgroundJobs)
+		public ImageManager(IRecurringJobManager backgroundJobs)
 		{
 			this.backgroundJobs = backgroundJobs;
 		}
