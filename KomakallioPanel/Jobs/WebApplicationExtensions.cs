@@ -1,6 +1,4 @@
-﻿using Hangfire;
-
-namespace KomakallioPanel.Jobs
+﻿namespace KomakallioPanel.Jobs
 {
     public static class WebApplicationExtensions
     {
