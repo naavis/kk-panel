@@ -6,34 +6,40 @@
 <div class="container">
     @foreach (var p in panelValues)
     {
-        <ImagePanel Id="@p.id" DisplayName="@p.displayName" SourceUrl="@p.sourceUrl" cacheBuster="@p.cacheBuster" />
+        <ImagePanel Id="@p.Id" DisplayName="@p.DisplayName" SourceUrl="@p.SourceUrl" cacheBuster="@p.CacheBuster" />
     }
 </div>
 
 @code {
-    List<(string id, string displayName, string sourceUrl, string cacheBuster)> panelValues = new();
+    internal record class Panel(string Id, string DisplayName, string SourceUrl, string CacheBuster);
+    List<Panel> panelValues = new();
 
     protected override void OnInitialized()
     {
-        UpdatePanelValues();
+        InitializePanelValues();
         ImageManager.ListChanged += HandleListChanged!;
     }
 
-    private async void HandleListChanged()
+    private async void HandleListChanged(string key)
     {
-        // TODO: Only update the image that has changed and not all of them
         await InvokeAsync(() =>
         {
-            UpdatePanelValues();
+            UpdatePanel(key);
             StateHasChanged();
         });
     }
 
-    private void UpdatePanelValues()
+    private void InitializePanelValues()
     {
         panelValues = ImageManager
             .GetImages()
-            .Select(i => (i.Id, i.DisplayName, i.SourcePage.ToString(), Random.Shared.NextInt64().ToString()))
+            .Select(i => new Panel(i.Id, i.DisplayName, i.SourcePage.ToString(), Random.Shared.NextInt64().ToString()))
             .ToList();
+    }
+
+    private void UpdatePanel(string key)
+    {
+        var panelIndex = panelValues.FindIndex(p => p.Id == key);
+        panelValues[panelIndex] = panelValues[panelIndex] with { CacheBuster = Random.Shared.NextInt64().ToString() };
     }
 }

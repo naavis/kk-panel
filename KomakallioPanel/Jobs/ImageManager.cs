@@ -24,11 +24,11 @@ namespace KomakallioPanel.Jobs
 
         public List<ImageSettings> GetImages() => images;
 
-        public event Action? ListChanged;
+        public event Action<string>? ListChanged;
 
-        public void NotifyListChanged()
+        public void NotifyListChanged(string key)
         {
-            ListChanged?.Invoke();
+            ListChanged?.Invoke(key);
         }
     }
 }

@@ -5,8 +5,8 @@
         void Add(ImageSettings image, string cronSchedule);
         List<ImageSettings> GetImages();
 
-        public event Action? ListChanged;
+        public event Action<string>? ListChanged;
 
-        public void NotifyListChanged();
+        public void NotifyListChanged(string key);
     }
 }

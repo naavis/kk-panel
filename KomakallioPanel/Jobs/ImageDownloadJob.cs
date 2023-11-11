@@ -44,7 +44,7 @@
             await inputImage.SaveAsJpegAsync($"wwwroot/{outputFilename}");
 
             logger.LogInformation("Finished writing to {filename}", outputFilename);
-            imageManager.NotifyListChanged();
+            imageManager.NotifyListChanged(key);
         }
     }
 }
