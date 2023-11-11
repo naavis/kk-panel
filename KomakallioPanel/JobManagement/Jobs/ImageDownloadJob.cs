@@ -1,4 +1,4 @@
-﻿namespace KomakallioPanel.Jobs
+﻿namespace KomakallioPanel.JobManagement.Jobs
 {
     public class ImageDownloadJob
     {

@@ -1,5 +1,5 @@
 using Hangfire;
-using KomakallioPanel.Jobs;
+using KomakallioPanel.JobManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 

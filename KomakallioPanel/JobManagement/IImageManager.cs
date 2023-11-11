@@ -1,4 +1,4 @@
-﻿namespace KomakallioPanel.Jobs
+﻿namespace KomakallioPanel.JobManagement
 {
     public interface IImageManager
     {

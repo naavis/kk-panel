@@ -1,6 +1,7 @@
 ﻿using Hangfire;
+using KomakallioPanel.JobManagement.Jobs;
 
-namespace KomakallioPanel.Jobs
+namespace KomakallioPanel.JobManagement
 {
     public class ImageManager : IImageManager
     {
