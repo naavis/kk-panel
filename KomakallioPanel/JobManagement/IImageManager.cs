@@ -1,8 +1,10 @@
-﻿namespace KomakallioPanel.JobManagement
+﻿using KomakallioPanel.JobManagement.Jobs;
+
+namespace KomakallioPanel.JobManagement
 {
     public interface IImageManager
     {
-        void Add(ImageSettings image, string cronSchedule);
+        void Add<T>(string cronSchedule) where T : IImageJob;
         List<ImageSettings> GetImages();
 
         public event Action<string>? ListChanged;

@@ -13,14 +13,12 @@ namespace KomakallioPanel.JobManagement
             this.backgroundJobs = backgroundJobs;
         }
 
-        public void Add(ImageSettings image, string cronSchedule)
+        public void Add<T>(string cronSchedule) where T : IImageJob
         {
-            images.Add(image);
-            backgroundJobs.AddOrUpdate<ImageDownloadJob>(
-                image.Id,
-                job => job.ExecuteAsync(image.Id, image.ImageSource, true),
-                cronSchedule);
-            backgroundJobs.Trigger(image.Id);
+            var settings = T.Settings;
+            images.Add(settings);
+            backgroundJobs.AddOrUpdate<T>(settings.Id, job => job.ExecuteAsync(), cronSchedule);
+            backgroundJobs.Trigger(settings.Id);
         }
 
         public List<ImageSettings> GetImages() => images;
