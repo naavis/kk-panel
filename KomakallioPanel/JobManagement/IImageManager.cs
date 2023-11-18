@@ -7,8 +7,7 @@ namespace KomakallioPanel.JobManagement
         void Add<T>(string cronSchedule) where T : IImageJob;
         List<ImageSettings> GetImages();
 
-        public event Action<string>? ListChanged;
-
-        public void NotifyListChanged(string key);
+        void NotifyListChanged(string key);
+        event Action<string>? ListChanged;
     }
 }
