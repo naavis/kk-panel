@@ -1,8 +1,8 @@
 ﻿namespace KomakallioPanel.JobManagement.Jobs
 {
-    public class BromarvJob : ImageDownloadJob, IImageJob
+    public class BromarvJob : BaseJob, IImageJob
     {
-        public BromarvJob(ILogger<ImageDownloadJob> logger,
+        public BromarvJob(ILogger<BaseJob> logger,
                           IHttpClientFactory httpClientFactory,
                           IImageManager imageManager) : base(Settings.Id, logger, httpClientFactory, imageManager)
         {

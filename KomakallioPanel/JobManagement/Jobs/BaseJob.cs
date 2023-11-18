@@ -1,14 +1,14 @@
 ﻿namespace KomakallioPanel.JobManagement.Jobs
 {
-    public abstract class ImageDownloadJob
+    public abstract class BaseJob
     {
         protected readonly string jobId;
 
-        private readonly ILogger<ImageDownloadJob> logger;
+        private readonly ILogger<BaseJob> logger;
         private readonly IHttpClientFactory httpClientFactory;
         private readonly IImageManager imageManager;
 
-        public ImageDownloadJob(string jobId, ILogger<ImageDownloadJob> logger, IHttpClientFactory httpClientFactory, IImageManager imageManager)
+        public BaseJob(string jobId, ILogger<BaseJob> logger, IHttpClientFactory httpClientFactory, IImageManager imageManager)
         {
             this.jobId = jobId;
             this.logger = logger;

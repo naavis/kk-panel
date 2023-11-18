@@ -1,8 +1,8 @@
 ﻿namespace KomakallioPanel.JobManagement.Jobs
 {
-    public class MetsahoviJob : ImageDownloadJob, IImageJob
+    public class MetsahoviJob : BaseJob, IImageJob
     {
-        public MetsahoviJob(ILogger<ImageDownloadJob> logger,
+        public MetsahoviJob(ILogger<BaseJob> logger,
                             IHttpClientFactory httpClientFactory,
                             IImageManager imageManager) : base(Settings.Id, logger, httpClientFactory, imageManager)
         {
