@@ -3,7 +3,7 @@
         <img src="@ImageUrl" />
     </a>
     <h3>
-        <a href="@SourceUrl">@DisplayName</a>
+        <a href="@LinkUrl">@DisplayName</a>
     </h3>
 </div>
 
@@ -15,7 +15,7 @@
     public string DisplayName { get; set; } = "N/A";
 
     [Parameter]
-    public string SourceUrl { get; set; } = "/";
+    public string LinkUrl { get; set; } = "/";
 
     [Parameter]
     public string CacheBuster { get; set; } = "";
