@@ -1,19 +1,22 @@
 ﻿namespace KomakallioPanel.JobManagement.Jobs
 {
-    public class ImageDownloadJob
+    public abstract class ImageDownloadJob
     {
+        protected readonly string jobId;
+
         private readonly ILogger<ImageDownloadJob> logger;
         private readonly IHttpClientFactory httpClientFactory;
         private readonly IImageManager imageManager;
 
-        public ImageDownloadJob(ILogger<ImageDownloadJob> logger, IHttpClientFactory httpClientFactory, IImageManager imageManager)
+        public ImageDownloadJob(string jobId, ILogger<ImageDownloadJob> logger, IHttpClientFactory httpClientFactory, IImageManager imageManager)
         {
+            this.jobId = jobId;
             this.logger = logger;
             this.httpClientFactory = httpClientFactory;
             this.imageManager = imageManager;
         }
 
-        public async Task ExecuteAsync(string key, Uri imageSource, bool onlyLatest = true)
+        public async Task DownloadImageAsync(Uri imageSource, bool onlyLatest = true)
         {
             logger.LogInformation("Downloading: {imageSource}", imageSource.ToString());
 
@@ -37,14 +40,14 @@
              * only saving the latest. */
             var outputFilename = onlyLatest switch
             {
-                true => $"{key}-latest.jpg",
-                false => $"{key}-{timeString}.jpg"
+                true => $"{jobId}-latest.jpg",
+                false => $"{jobId}-{timeString}.jpg"
             };
 
             await inputImage.SaveAsJpegAsync($"wwwroot/{outputFilename}");
 
             logger.LogInformation("Finished writing to {filename}", outputFilename);
-            imageManager.NotifyListChanged(key);
+            imageManager.NotifyListChanged(jobId);
         }
     }
 }

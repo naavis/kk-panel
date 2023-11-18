@@ -2,7 +2,9 @@
 {
     public class HankasalmiJob : ImageDownloadJob, IImageJob
     {
-        public HankasalmiJob(ILogger<ImageDownloadJob> logger, IHttpClientFactory httpClientFactory, IImageManager imageManager) : base(logger, httpClientFactory, imageManager)
+        public HankasalmiJob(ILogger<ImageDownloadJob> logger,
+                             IHttpClientFactory httpClientFactory,
+                             IImageManager imageManager) : base(Settings.Id, logger, httpClientFactory, imageManager)
         {
         }
 
@@ -14,7 +16,7 @@
 
         public async Task ExecuteAsync()
         {
-            await ExecuteAsync(Settings.Id, Settings.ImageSource, true);
+            await DownloadImageAsync(Settings.ImageSource, true);
         }
     }
 }
