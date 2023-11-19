@@ -28,6 +28,11 @@
             }
 
             using var inputImage = await Image.LoadAsync(await response.Content.ReadAsStreamAsync());
+            inputImage.Mutate(i => i.Resize(new ResizeOptions
+            {
+                Mode = ResizeMode.Min,
+                Size = new Size(800, 0),
+            }));
 
             var timeString = DateTime
                 .UtcNow
