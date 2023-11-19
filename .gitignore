@@ -479,6 +479,3 @@ $RECYCLE.BIN/
 # Ignore downloaded image files
 KomakallioPanel/wwwroot/*.jpg
 !KomakallioPanel/wwwroot/not-available-image.jpg
-
-# Temporarily ignoring old Node.js application files that are being kept around for reference
-old/
