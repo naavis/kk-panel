@@ -2,6 +2,6 @@
 {
     public interface IImageDownloader
     {
-        Task DownloadImageAsync(string jobId, Uri imageSource, bool onlyLatest = true);
+        Task DownloadImageAsync(string jobId, Uri imageSource);
     }
 }

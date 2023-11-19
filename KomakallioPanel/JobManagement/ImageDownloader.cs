@@ -15,44 +15,54 @@
             this.imageManager = imageManager;
         }
 
-        public async Task DownloadImageAsync(string jobId, Uri imageSource, bool onlyLatest = true)
+        public async Task DownloadImageAsync(string jobId, Uri imageSource)
+        {
+            using var inputImage = await FetchImageAsync(imageSource);
+            ResizeImageToWidth(inputImage, 800);
+
+            var outputFilename = $"{jobId}-latest.jpg";
+            await inputImage.SaveAsJpegAsync($"wwwroot/{outputFilename}");
+            logger.LogInformation("Finished writing to {filename}", outputFilename);
+
+            NotifyAboutUpdate(jobId, outputFilename);
+        }
+
+        private void NotifyAboutUpdate(string jobId, string outputFilename)
+        {
+            var imageRelativeUri = new Uri($"{outputFilename}?cachebuster={Random.Shared.NextInt64()}", UriKind.Relative);
+            imageManager.Update(jobId, imageRelativeUri);
+        }
+
+        private static void ResizeImageToWidth(Image inputImage, int Width)
+        {
+            inputImage.Mutate(i =>
+            {
+                i.Resize(new ResizeOptions
+                {
+                    Mode = ResizeMode.Min,
+                    Size = new Size(Width, 0),
+                });
+            });
+        }
+
+        private async Task<Image> FetchImageAsync(Uri imageSource)
         {
             logger.LogInformation("Downloading: {imageSource}", imageSource.ToString());
-
             using var httpClient = httpClientFactory.CreateClient();
             var response = await httpClient.GetAsync(imageSource.AbsoluteUri);
             if (!response.IsSuccessStatusCode)
             {
-                logger.LogError("Received {statusCode} when downloading {imageSource}", response.StatusCode, imageSource);
-                return;
+                throw new InvalidOperationException($"Received {response.StatusCode} when downloading {imageSource}");
             }
 
-            using var inputImage = await Image.LoadAsync(await response.Content.ReadAsStreamAsync());
-            inputImage.Mutate(i => i.Resize(new ResizeOptions
+            var image = await Image.LoadAsync(await response.Content.ReadAsStreamAsync());
+            if (image is null)
             {
-                Mode = ResizeMode.Min,
-                Size = new Size(800, 0),
-            }));
+                throw new InvalidOperationException($"Could not parse response from {imageSource} to image");
+            }
 
-            var timeString = DateTime
-                .UtcNow
-                .ToString("s", System.Globalization.CultureInfo.InvariantCulture)
-                .Replace(":", "-");
-
-            /* Until there is more infrastructure in place to store several images
-             * from the same camera and clean them up after some retention period,
-             * only saving the latest. */
-            var outputFilename = onlyLatest switch
-            {
-                true => $"{jobId}-latest.jpg",
-                false => $"{jobId}-{timeString}.jpg"
-            };
-
-            await inputImage.SaveAsJpegAsync($"wwwroot/{outputFilename}");
-
-            logger.LogInformation("Finished writing to {filename}", outputFilename);
-            var imageRelativeUri = new Uri($"{outputFilename}?cachebuster={Random.Shared.NextInt64()}", UriKind.Relative);
-            imageManager.Update(jobId, imageRelativeUri);
+            logger.LogInformation("Finished downloading image from {imageSource}", imageSource);
+            return image;
         }
     }
 }
