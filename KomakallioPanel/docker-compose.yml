@@ -1,0 +1,12 @@
+﻿version: "3.7"
+services:
+  web:
+    build:
+      context: .
+    restart: always
+    env_file:
+      - vhost.env
+networks:
+  default:
+    external:
+      name: common-network
