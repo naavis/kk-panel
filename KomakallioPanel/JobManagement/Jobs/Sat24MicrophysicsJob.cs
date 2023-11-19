@@ -4,14 +4,14 @@ namespace KomakallioPanel.JobManagement.Jobs
 {
     public class Sat24MicrophysicsJob : IImageJob
     {
-        public class Layer
+        private class Layer
         {
-            public string Url { get; set; }
+            public string Url { get; set; } = default!;
         }
 
-        public class JsonResponse
+        private class JsonResponse
         {
-            public IEnumerable<Layer> Layers { get; set; }
+            public IEnumerable<Layer> Layers { get; set; } = default!;
         }
 
         private readonly IHttpClientFactory httpClientFactory;
