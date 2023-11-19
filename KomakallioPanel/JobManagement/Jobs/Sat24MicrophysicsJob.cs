@@ -31,6 +31,25 @@ namespace KomakallioPanel.JobManagement.Jobs
 
         public async Task ExecuteAsync()
         {
+            JsonResponse? parsedJson = await GetLayerListAsync();
+            var lastLayer = parsedJson.Layers.Last();
+            var fullUri = GetFullImageUrl(lastLayer);
+
+            await imageDownloader.DownloadImageAsync(Settings.Id, fullUri);
+        }
+
+        private static Uri GetFullImageUrl(Layer layer)
+        {
+            var baseUri = new Uri("https://imn-api.meteoplaza.com/v4/nowcast/tiles/", UriKind.Absolute);
+            /* If layer.Url starts with a slash, cambining it with the baseUri using the
+             * Uri constructor erases the path in the baseUri, resulting in the wrong URL */
+            var tilePath = layer.Url.StartsWith("/") ? layer.Url[1..] : layer.Url;
+            var fullUri = new Uri(baseUri, tilePath + "/7/27/65/41/82?outputtype=jpeg");
+            return fullUri;
+        }
+
+        private async Task<JsonResponse> GetLayerListAsync()
+        {
             var httpClient = httpClientFactory.CreateClient();
             var jsonResult = await httpClient.GetAsync("https://imn-api.meteoplaza.com/v4/nowcast/tiles/satellite-europe-nightmicrophysics/");
 
@@ -42,15 +61,7 @@ namespace KomakallioPanel.JobManagement.Jobs
                 throw new InvalidOperationException("Could not parse JSON from Sat24");
             }
 
-            var lastLayer = parsedJson.Layers.Last();
-
-            var baseUri = new Uri("https://imn-api.meteoplaza.com/v4/nowcast/tiles/", UriKind.Absolute);
-            /* If lastLayer.Url starts with a slash, cambining it with the baseUri using the
-             * Uri constructor erases the path in the baseUri, resulting in the wrong URL */
-            var tilePath = lastLayer.Url.StartsWith("/") ? lastLayer.Url[1..] : lastLayer.Url;
-            var fullUri = new Uri(baseUri, tilePath + "/7/27/65/41/82?outputtype=jpeg");
-
-            await imageDownloader.DownloadImageAsync(Settings.Id, fullUri);
+            return parsedJson;
         }
     }
 }
