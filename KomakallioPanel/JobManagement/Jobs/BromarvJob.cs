@@ -1,11 +1,12 @@
 ﻿namespace KomakallioPanel.JobManagement.Jobs
 {
-    public class BromarvJob : BaseJob, IImageJob
+    public class BromarvJob : IImageJob
     {
-        public BromarvJob(ILogger<BromarvJob> logger,
-                          IHttpClientFactory httpClientFactory,
-                          IImageManager imageManager) : base(Settings.Id, logger, httpClientFactory, imageManager)
+        private readonly IImageDownloader imageDownloader;
+
+        public BromarvJob(IImageDownloader imageDownloader)
         {
+            this.imageDownloader = imageDownloader;
         }
 
         public static ImageSettings Settings
@@ -16,7 +17,7 @@
 
         public async Task ExecuteAsync()
         {
-            await DownloadImageAsync(new Uri("https://bromarv-astro.cloud/allsky-latest.jpg", UriKind.Absolute), true);
+            await imageDownloader.DownloadImageAsync(Settings.Id, new Uri("https://bromarv-astro.cloud/allsky-latest.jpg"));
         }
     }
 }

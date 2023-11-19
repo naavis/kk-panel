@@ -1,22 +1,21 @@
-﻿namespace KomakallioPanel.JobManagement.Jobs
+﻿namespace KomakallioPanel.JobManagement
 {
-    public abstract class BaseJob
+    public class ImageDownloader : IImageDownloader
     {
-        protected readonly string jobId;
-
-        private readonly ILogger<BaseJob> logger;
+        private readonly ILogger<ImageDownloader> logger;
         private readonly IHttpClientFactory httpClientFactory;
         private readonly IImageManager imageManager;
 
-        public BaseJob(string jobId, ILogger<BaseJob> logger, IHttpClientFactory httpClientFactory, IImageManager imageManager)
+        public ImageDownloader(ILogger<ImageDownloader> logger,
+                          IHttpClientFactory httpClientFactory,
+                          IImageManager imageManager)
         {
-            this.jobId = jobId;
             this.logger = logger;
             this.httpClientFactory = httpClientFactory;
             this.imageManager = imageManager;
         }
 
-        public async Task DownloadImageAsync(Uri imageSource, bool onlyLatest = true)
+        public async Task DownloadImageAsync(string jobId, Uri imageSource, bool onlyLatest = true)
         {
             logger.LogInformation("Downloading: {imageSource}", imageSource.ToString());
 

@@ -1,11 +1,12 @@
 ﻿namespace KomakallioPanel.JobManagement.Jobs
 {
-    public class MetsahoviJob : BaseJob, IImageJob
+    public class MetsahoviJob : IImageJob
     {
-        public MetsahoviJob(ILogger<MetsahoviJob> logger,
-                            IHttpClientFactory httpClientFactory,
-                            IImageManager imageManager) : base(Settings.Id, logger, httpClientFactory, imageManager)
+        private readonly IImageDownloader imageDownloader;
+
+        public MetsahoviJob(IImageDownloader imageDownloader)
         {
+            this.imageDownloader = imageDownloader;
         }
 
         public static ImageSettings Settings
@@ -16,7 +17,7 @@
 
         public async Task ExecuteAsync()
         {
-            await DownloadImageAsync(new Uri("https://data.metsahovi.fi/allsky/latest_hf.jpeg", UriKind.Absolute), true);
+            await imageDownloader.DownloadImageAsync(Settings.Id, new Uri("https://data.metsahovi.fi/allsky/latest_hf.jpeg"));
         }
     }
 }

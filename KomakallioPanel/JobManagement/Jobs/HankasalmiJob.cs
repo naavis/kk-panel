@@ -1,11 +1,12 @@
 ﻿namespace KomakallioPanel.JobManagement.Jobs
 {
-    public class HankasalmiJob : BaseJob, IImageJob
+    public class HankasalmiJob : IImageJob
     {
-        public HankasalmiJob(ILogger<HankasalmiJob> logger,
-                             IHttpClientFactory httpClientFactory,
-                             IImageManager imageManager) : base(Settings.Id, logger, httpClientFactory, imageManager)
+        private readonly IImageDownloader imageDownloader;
+
+        public HankasalmiJob(IImageDownloader imageDownloader)
         {
+            this.imageDownloader = imageDownloader;
         }
 
         public static ImageSettings Settings
@@ -16,7 +17,7 @@
 
         public async Task ExecuteAsync()
         {
-            await DownloadImageAsync(new Uri("http://murtoinen.jklsirius.fi/ccd/skywatch/ImageLastFTP_AllSKY.jpg", UriKind.Absolute), true);
+            await imageDownloader.DownloadImageAsync(Settings.Id, new Uri("http://murtoinen.jklsirius.fi/ccd/skywatch/ImageLastFTP_AllSKY.jpg"));
         }
     }
 }
