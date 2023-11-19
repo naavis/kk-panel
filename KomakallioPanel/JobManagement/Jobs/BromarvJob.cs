@@ -2,7 +2,7 @@
 {
     public class BromarvJob : BaseJob, IImageJob
     {
-        public BromarvJob(ILogger<BaseJob> logger,
+        public BromarvJob(ILogger<BromarvJob> logger,
                           IHttpClientFactory httpClientFactory,
                           IImageManager imageManager) : base(Settings.Id, logger, httpClientFactory, imageManager)
         {

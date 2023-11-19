@@ -2,7 +2,7 @@
 {
     public class HankasalmiJob : BaseJob, IImageJob
     {
-        public HankasalmiJob(ILogger<BaseJob> logger,
+        public HankasalmiJob(ILogger<HankasalmiJob> logger,
                              IHttpClientFactory httpClientFactory,
                              IImageManager imageManager) : base(Settings.Id, logger, httpClientFactory, imageManager)
         {

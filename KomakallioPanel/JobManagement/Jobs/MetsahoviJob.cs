@@ -2,7 +2,7 @@
 {
     public class MetsahoviJob : BaseJob, IImageJob
     {
-        public MetsahoviJob(ILogger<BaseJob> logger,
+        public MetsahoviJob(ILogger<MetsahoviJob> logger,
                             IHttpClientFactory httpClientFactory,
                             IImageManager imageManager) : base(Settings.Id, logger, httpClientFactory, imageManager)
         {
