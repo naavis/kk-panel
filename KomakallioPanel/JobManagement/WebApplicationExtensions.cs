@@ -10,6 +10,7 @@ namespace KomakallioPanel.JobManagement
             imageManager.Add<MetsahoviJob>("30 */3 * * * *");
             imageManager.Add<FmiTestbedJob>("0 */5 * * * *");
             imageManager.Add<BromarvJob>("30 * * * * *");
+            imageManager.Add<Sat24MicrophysicsJob>("30 */5 * * * *");
             imageManager.Add<HankasalmiJob>("30 * * * * *");
         }
     }
