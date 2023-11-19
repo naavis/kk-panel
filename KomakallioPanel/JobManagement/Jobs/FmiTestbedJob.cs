@@ -1,0 +1,43 @@
+﻿using AngleSharp;
+
+namespace KomakallioPanel.JobManagement.Jobs
+{
+    public class FmiTestbedJob : BaseJob, IImageJob
+    {
+        public FmiTestbedJob(ILogger<FmiTestbedJob> logger,
+                             IHttpClientFactory httpClientFactory,
+                             IImageManager imageManager) : base(Settings.Id, logger, httpClientFactory, imageManager)
+        {
+        }
+
+        public static ImageSettings Settings
+            => new("testbed",
+                   "FMI Testbed",
+                   new Uri("https://testbed.fmi.fi/"),
+                   new Uri("not-available-image.jpg", UriKind.Relative));
+
+        public async Task ExecuteAsync()
+        {
+            string imageUrl = await ParseImageUrl();
+            await DownloadImageAsync(new Uri(imageUrl), true);
+        }
+
+        private static async Task<string> ParseImageUrl()
+        {
+            var config = AngleSharp.Configuration.Default.WithDefaultLoader();
+            var address = "https://testbed.fmi.fi/?imgtype=radar&t=5&n=1";
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(address);
+
+            var imageTag = document.QuerySelector("img[id=\"anim_image_anim_anim\"]");
+            var imageUrl = imageTag?.Attributes["src"]?.Value;
+
+            if (imageUrl is null)
+            {
+                throw new InvalidOperationException("Could not find URL for FMI testbed");
+            }
+
+            return imageUrl;
+        }
+    }
+}
