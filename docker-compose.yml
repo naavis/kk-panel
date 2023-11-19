@@ -3,6 +3,7 @@ services:
   web:
     build:
       context: .
+      dockerfile: KomakallioPanel/Dockerfile
     restart: always
     env_file:
       - vhost.env
