@@ -13,7 +13,7 @@
             => new("bromarv",
                    "Bromarv Allsky",
                    new Uri("https://bromarv-astro.cloud/allsky-latest.jpg"),
-                   new Uri("not-available-image.jpg", UriKind.Relative));
+                   Constants.NotAvailableImageUri);
 
         public async Task ExecuteAsync()
         {

@@ -15,7 +15,7 @@ namespace KomakallioPanel.JobManagement.Jobs
             => new("testbed",
                    "FMI Testbed",
                    new Uri("https://testbed.fmi.fi/"),
-                   new Uri("not-available-image.jpg", UriKind.Relative));
+                   Constants.NotAvailableImageUri);
 
         public async Task ExecuteAsync()
         {

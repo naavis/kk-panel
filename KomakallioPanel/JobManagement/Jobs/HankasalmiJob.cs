@@ -13,7 +13,7 @@
             => new("hankasalmi",
                    "Hankasalmi Allsky",
                    new Uri("http://www.ursa.fi/yhd/sirius/sivut/"),
-                   new Uri("not-available-image.jpg", UriKind.Relative));
+                   Constants.NotAvailableImageUri);
 
         public async Task ExecuteAsync()
         {

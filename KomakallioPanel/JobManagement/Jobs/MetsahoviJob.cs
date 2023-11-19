@@ -13,7 +13,7 @@
             => new("metsahovi",
                    "Metsähovi",
                    new Uri("https://www.metsahovi.fi/allsky-gallery"),
-                   new Uri("not-available-image.jpg", UriKind.Relative));
+                   Constants.NotAvailableImageUri);
 
         public async Task ExecuteAsync()
         {
