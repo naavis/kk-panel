@@ -21,13 +21,20 @@ namespace KomakallioPanel.JobManagement
             backgroundJobs.Trigger(settings.Id);
         }
 
+        public void Update(string id, Uri newImageRelativeUri)
+        {
+            var imageIndex = images.FindIndex(x => x.Id == id);
+            images[imageIndex] = images[imageIndex] with { ImagePath = newImageRelativeUri };
+            NotifyListChanged();
+        }
+
         public List<ImageSettings> GetImages() => images;
 
-        public event Action<string>? ListChanged;
+        public event Action? ListChanged;
 
-        public void NotifyListChanged(string key)
+        private void NotifyListChanged()
         {
-            ListChanged?.Invoke(key);
+            ListChanged?.Invoke();
         }
     }
 }

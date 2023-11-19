@@ -6,40 +6,34 @@
 <div class="container">
     @foreach (var p in panelValues)
     {
-        <ImagePanel Id="@p.Id" DisplayName="@p.DisplayName" LinkUrl="@p.SourceUrl" CacheBuster="@p.CacheBuster" />
+        <ImagePanel Id="@p.Id" DisplayName="@p.DisplayName" LinkUrl="@p.SourceUrl" ImagePath="@p.ImageUri" />
     }
 </div>
 
 @code {
-    internal record class Panel(string Id, string DisplayName, string SourceUrl, string CacheBuster);
+    internal record class Panel(string Id, string DisplayName, string SourceUrl, string ImageUri);
     List<Panel> panelValues = new();
 
     protected override void OnInitialized()
     {
-        InitializePanelValues();
+        UpdatePanels();
         ImageManager.ListChanged += HandleListChanged!;
     }
 
-    private async void HandleListChanged(string key)
+    private async void HandleListChanged()
     {
         await InvokeAsync(() =>
         {
-            UpdatePanel(key);
+            UpdatePanels();
             StateHasChanged();
         });
     }
 
-    private void InitializePanelValues()
+    private void UpdatePanels()
     {
         panelValues = ImageManager
             .GetImages()
-            .Select(i => new Panel(i.Id, i.DisplayName, i.SourcePage.ToString(), Random.Shared.NextInt64().ToString()))
+            .Select(i => new Panel(i.Id, i.DisplayName, i.SourcePage.ToString(), i.ImagePath.ToString()))
             .ToList();
-    }
-
-    private void UpdatePanel(string key)
-    {
-        var panelIndex = panelValues.FindIndex(p => p.Id == key);
-        panelValues[panelIndex] = panelValues[panelIndex] with { CacheBuster = Random.Shared.NextInt64().ToString() };
     }
 }

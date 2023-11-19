@@ -12,11 +12,11 @@
             => new("hankasalmi",
                    "Hankasalmi Allsky",
                    new Uri("http://www.ursa.fi/yhd/sirius/sivut/"),
-                   new Uri("http://murtoinen.jklsirius.fi/ccd/skywatch/ImageLastFTP_AllSKY.jpg"));
+                   new Uri("not-available-image.jpg", UriKind.Relative));
 
         public async Task ExecuteAsync()
         {
-            await DownloadImageAsync(Settings.ImageSource, true);
+            await DownloadImageAsync(new Uri("http://murtoinen.jklsirius.fi/ccd/skywatch/ImageLastFTP_AllSKY.jpg", UriKind.Absolute), true);
         }
     }
 }

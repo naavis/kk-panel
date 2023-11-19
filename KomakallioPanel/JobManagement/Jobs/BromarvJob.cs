@@ -12,11 +12,11 @@
             => new("bromarv",
                    "Bromarv Allsky",
                    new Uri("https://bromarv-astro.cloud/allsky-latest.jpg"),
-                   new Uri("https://bromarv-astro.cloud/allsky-latest.jpg"));
+                   new Uri("not-available-image.jpg", UriKind.Relative));
 
         public async Task ExecuteAsync()
         {
-            await DownloadImageAsync(Settings.ImageSource, true);
+            await DownloadImageAsync(new Uri("https://bromarv-astro.cloud/allsky-latest.jpg", UriKind.Absolute), true);
         }
     }
 }

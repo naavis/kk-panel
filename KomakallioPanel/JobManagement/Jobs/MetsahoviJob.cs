@@ -12,11 +12,11 @@
             => new("metsahovi",
                    "Metsähovi",
                    new Uri("https://www.metsahovi.fi/allsky-gallery"),
-                   new Uri("https://data.metsahovi.fi/allsky/latest_hf.jpeg"));
+                   new Uri("not-available-image.jpg", UriKind.Relative));
 
         public async Task ExecuteAsync()
         {
-            await DownloadImageAsync(Settings.ImageSource, true);
+            await DownloadImageAsync(new Uri("https://data.metsahovi.fi/allsky/latest_hf.jpeg", UriKind.Absolute), true);
         }
     }
 }

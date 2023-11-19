@@ -1,6 +1,6 @@
 ﻿<div id="@Id">
-    <a href="@ImageUrl">
-        <img src="@ImageUrl" />
+    <a href="@ImagePath">
+        <img src="@ImagePath" />
     </a>
     <h3>
         <a href="@LinkUrl">@DisplayName</a>
@@ -20,5 +20,6 @@
     [Parameter]
     public string CacheBuster { get; set; } = "";
 
-    string ImageUrl => $"{Id}-latest.jpg?cachebuster={CacheBuster}";
+    [Parameter]
+    public string ImagePath { get; set; } = "";
 }

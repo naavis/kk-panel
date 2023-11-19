@@ -47,7 +47,8 @@
             await inputImage.SaveAsJpegAsync($"wwwroot/{outputFilename}");
 
             logger.LogInformation("Finished writing to {filename}", outputFilename);
-            imageManager.NotifyListChanged(jobId);
+            var imageRelativeUri = new Uri($"{outputFilename}?cachebuster={Random.Shared.NextInt64()}", UriKind.Relative);
+            imageManager.Update(jobId, imageRelativeUri);
         }
     }
 }
