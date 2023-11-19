@@ -45,11 +45,9 @@ namespace KomakallioPanel.JobManagement.Jobs
             var lastLayer = parsedJson.Layers.Last();
 
             var baseUri = new Uri("https://imn-api.meteoplaza.com/v4/nowcast/tiles/", UriKind.Absolute);
-            var tilePath = lastLayer.Url switch
-            {
-                { } when lastLayer.Url.StartsWith("/") => lastLayer.Url.Substring(1),
-                _ => lastLayer.Url,
-            };
+            /* If lastLayer.Url starts with a slash, cambining it with the baseUri using the
+             * Uri constructor erases the path in the baseUri, resulting in the wrong URL */
+            var tilePath = lastLayer.Url.StartsWith("/") ? lastLayer.Url[1..] : lastLayer.Url;
             var fullUri = new Uri(baseUri, tilePath + "/7/27/65/41/82?outputtype=jpeg");
 
             await imageDownloader.DownloadImageAsync(Settings.Id, fullUri);
