@@ -20,8 +20,13 @@ namespace KomakallioPanel.JobManagement
         public async Task UpdateImageAsync(string jobId, Uri imageSource)
         {
             using var downloadedImage = await imageDownloader.DownloadImageAsync(imageSource);
-            ResizeImageToWidth(downloadedImage, 800);
-            await SaveImage(jobId, downloadedImage);
+            await UpdateImageAsync(jobId, downloadedImage);
+        }
+
+        public async Task UpdateImageAsync(string jobId, Image image)
+        {
+            ResizeImageToWidth(image, 800);
+            await SaveImage(jobId, image);
         }
 
         private static void ResizeImageToWidth(Image inputImage, int Width)

@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using KomakallioPanel.ImageTools;
+using System.Text.Json;
 
 namespace KomakallioPanel.JobManagement.Jobs
 {
@@ -16,11 +17,15 @@ namespace KomakallioPanel.JobManagement.Jobs
 
         private readonly IHttpClientFactory httpClientFactory;
         private readonly IImageUpdater imageUpdater;
+        private readonly IImageDownloader imageDownloader;
 
-        public Sat24MicrophysicsJob(IHttpClientFactory httpClientFactory, IImageUpdater imageUpdater)
+        public Sat24MicrophysicsJob(IHttpClientFactory httpClientFactory,
+                                    IImageUpdater imageUpdater,
+                                    IImageDownloader imageDownloader)
         {
             this.httpClientFactory = httpClientFactory;
             this.imageUpdater = imageUpdater;
+            this.imageDownloader = imageDownloader;
         }
 
         public static ImageSettings Settings
@@ -33,9 +38,23 @@ namespace KomakallioPanel.JobManagement.Jobs
         {
             JsonResponse? parsedJson = await GetLayerListAsync();
             var lastLayer = parsedJson.Layers.Last();
-            var fullUri = GetFullImageUrl(lastLayer);
-            await imageUpdater.UpdateImageAsync(Settings.Id, fullUri);
+            var satelliteUrl = GetFullImageUrl(lastLayer);
+            using var satelliteImage = await imageDownloader.DownloadImageAsync(satelliteUrl);
 
+            const string countryBordersUrl = "https://maptiler.infoplaza.io/api/maps/Border/static/25.48,64.56,4.2/1176x882.png?attribution=false";
+            using var countryBordersImage = await imageDownloader.DownloadImageAsync(new Uri(countryBordersUrl, UriKind.Absolute));
+
+            // Align satellite image to country borders image
+            satelliteImage.Mutate(image =>
+                image.Crop(new Rectangle(15, 215, 4095, 3019))
+                     .Resize(countryBordersImage.Size));
+
+            // Add country borders to satellite image and crop excess
+            using var outputImage = countryBordersImage.Clone(ctx =>
+                ctx.DrawImage(satelliteImage, PixelColorBlendingMode.Add, 1.0f)
+                   .Crop(new Rectangle(200, 200, 800, 600)));
+
+            await imageUpdater.UpdateImageAsync(Settings.Id, outputImage);
         }
 
         private static Uri GetFullImageUrl(Layer layer)
