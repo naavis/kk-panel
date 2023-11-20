@@ -12,7 +12,7 @@
         public static ImageSettings Settings
             => new("hankasalmi",
                    "Hankasalmi Allsky",
-                   new Uri("http://www.ursa.fi/yhd/sirius/sivut/"),
+                   new Uri("http://murtoinen.jklsirius.fi/"),
                    Constants.NotAvailableImageUri);
 
         public async Task ExecuteAsync()
