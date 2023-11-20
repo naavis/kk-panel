@@ -2,11 +2,11 @@
 {
     public class BromarvJob : IImageJob
     {
-        private readonly IImageUpdater imageDownloader;
+        private readonly IImageUpdater imageUpdater;
 
-        public BromarvJob(IImageUpdater imageDownloader)
+        public BromarvJob(IImageUpdater imageUpdater)
         {
-            this.imageDownloader = imageDownloader;
+            this.imageUpdater = imageUpdater;
         }
 
         public static ImageSettings Settings
@@ -17,7 +17,7 @@
 
         public async Task ExecuteAsync()
         {
-            await imageDownloader.UpdateImageAsync(Settings.Id, new Uri("https://bromarv-astro.cloud/allsky-latest.jpg"));
+            await imageUpdater.UpdateImageAsync(Settings.Id, new Uri("https://bromarv-astro.cloud/allsky-latest.jpg"));
         }
     }
 }
