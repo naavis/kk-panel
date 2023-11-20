@@ -73,3 +73,14 @@ a {
 .container h3 {
     text-align: center;
 }
+
+#clear-outside {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#clear-outside img {
+    width: auto;
+    height: auto;
+}
