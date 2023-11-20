@@ -1,12 +1,12 @@
 ﻿namespace KomakallioPanel.JobManagement
 {
-    public class ImageDownloader : IImageDownloader
+    public class ImageUpdater : IImageUpdater
     {
-        private readonly ILogger<ImageDownloader> logger;
+        private readonly ILogger<ImageUpdater> logger;
         private readonly IHttpClientFactory httpClientFactory;
         private readonly IImageManager imageManager;
 
-        public ImageDownloader(ILogger<ImageDownloader> logger,
+        public ImageUpdater(ILogger<ImageUpdater> logger,
                           IHttpClientFactory httpClientFactory,
                           IImageManager imageManager)
         {
@@ -15,7 +15,7 @@
             this.imageManager = imageManager;
         }
 
-        public async Task DownloadImageAsync(string jobId, Uri imageSource)
+        public async Task UpdateImageAsync(string jobId, Uri imageSource)
         {
             using var inputImage = await FetchImageAsync(imageSource);
             ResizeImageToWidth(inputImage, 800);

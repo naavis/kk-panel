@@ -2,9 +2,9 @@
 {
     public class HankasalmiJob : IImageJob
     {
-        private readonly IImageDownloader imageDownloader;
+        private readonly IImageUpdater imageDownloader;
 
-        public HankasalmiJob(IImageDownloader imageDownloader)
+        public HankasalmiJob(IImageUpdater imageDownloader)
         {
             this.imageDownloader = imageDownloader;
         }
@@ -17,7 +17,7 @@
 
         public async Task ExecuteAsync()
         {
-            await imageDownloader.DownloadImageAsync(Settings.Id, new Uri("http://murtoinen.jklsirius.fi/ccd/skywatch/ImageLastFTP_AllSKY.jpg"));
+            await imageDownloader.UpdateImageAsync(Settings.Id, new Uri("http://murtoinen.jklsirius.fi/ccd/skywatch/ImageLastFTP_AllSKY.jpg"));
         }
     }
 }

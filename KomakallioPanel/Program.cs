@@ -10,7 +10,7 @@ builder.Services.AddHangfire(config =>
 builder.Services.AddHangfireServer();
 
 builder.Services.AddSingleton<IImageManager, ImageManager>();
-builder.Services.AddTransient<IImageDownloader, ImageDownloader>();
+builder.Services.AddTransient<IImageUpdater, ImageUpdater>();
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();

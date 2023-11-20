@@ -15,9 +15,9 @@ namespace KomakallioPanel.JobManagement.Jobs
         }
 
         private readonly IHttpClientFactory httpClientFactory;
-        private readonly IImageDownloader imageDownloader;
+        private readonly IImageUpdater imageDownloader;
 
-        public Sat24MicrophysicsJob(IHttpClientFactory httpClientFactory, IImageDownloader imageDownloader)
+        public Sat24MicrophysicsJob(IHttpClientFactory httpClientFactory, IImageUpdater imageDownloader)
         {
             this.httpClientFactory = httpClientFactory;
             this.imageDownloader = imageDownloader;
@@ -34,8 +34,8 @@ namespace KomakallioPanel.JobManagement.Jobs
             JsonResponse? parsedJson = await GetLayerListAsync();
             var lastLayer = parsedJson.Layers.Last();
             var fullUri = GetFullImageUrl(lastLayer);
+            await imageDownloader.UpdateImageAsync(Settings.Id, fullUri);
 
-            await imageDownloader.DownloadImageAsync(Settings.Id, fullUri);
         }
 
         private static Uri GetFullImageUrl(Layer layer)

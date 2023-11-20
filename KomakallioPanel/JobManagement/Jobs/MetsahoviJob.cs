@@ -2,9 +2,9 @@
 {
     public class MetsahoviJob : IImageJob
     {
-        private readonly IImageDownloader imageDownloader;
+        private readonly IImageUpdater imageDownloader;
 
-        public MetsahoviJob(IImageDownloader imageDownloader)
+        public MetsahoviJob(IImageUpdater imageDownloader)
         {
             this.imageDownloader = imageDownloader;
         }
@@ -17,7 +17,7 @@
 
         public async Task ExecuteAsync()
         {
-            await imageDownloader.DownloadImageAsync(Settings.Id, new Uri("https://data.metsahovi.fi/allsky/latest_hf.jpeg"));
+            await imageDownloader.UpdateImageAsync(Settings.Id, new Uri("https://data.metsahovi.fi/allsky/latest_hf.jpeg"));
         }
     }
 }

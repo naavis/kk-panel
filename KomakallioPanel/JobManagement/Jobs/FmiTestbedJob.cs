@@ -4,9 +4,9 @@ namespace KomakallioPanel.JobManagement.Jobs
 {
     public class FmiTestbedJob : IImageJob
     {
-        private readonly IImageDownloader imageDownloader;
+        private readonly IImageUpdater imageDownloader;
 
-        public FmiTestbedJob(IImageDownloader imageDownloader)
+        public FmiTestbedJob(IImageUpdater imageDownloader)
         {
             this.imageDownloader = imageDownloader;
         }
@@ -20,7 +20,7 @@ namespace KomakallioPanel.JobManagement.Jobs
         public async Task ExecuteAsync()
         {
             string imageUrl = await ParseImageUrl();
-            await imageDownloader.DownloadImageAsync(Settings.Id, new Uri(imageUrl));
+            await imageDownloader.UpdateImageAsync(Settings.Id, new Uri(imageUrl));
         }
 
         private static async Task<string> ParseImageUrl()
