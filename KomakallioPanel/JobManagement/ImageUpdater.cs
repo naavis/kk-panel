@@ -1,36 +1,27 @@
-﻿namespace KomakallioPanel.JobManagement
+﻿using KomakallioPanel.ImageTools;
+
+namespace KomakallioPanel.JobManagement
 {
     public class ImageUpdater : IImageUpdater
     {
         private readonly ILogger<ImageUpdater> logger;
-        private readonly IHttpClientFactory httpClientFactory;
+        private readonly IImageDownloader imageDownloader;
         private readonly IImageManager imageManager;
 
         public ImageUpdater(ILogger<ImageUpdater> logger,
-                          IHttpClientFactory httpClientFactory,
-                          IImageManager imageManager)
+                            IImageDownloader imageDownloader,
+                            IImageManager imageManager)
         {
             this.logger = logger;
-            this.httpClientFactory = httpClientFactory;
+            this.imageDownloader = imageDownloader;
             this.imageManager = imageManager;
         }
 
         public async Task UpdateImageAsync(string jobId, Uri imageSource)
         {
-            using var inputImage = await FetchImageAsync(imageSource);
-            ResizeImageToWidth(inputImage, 800);
-
-            var outputFilename = $"{jobId}-latest.jpg";
-            await inputImage.SaveAsJpegAsync($"wwwroot/{outputFilename}");
-            logger.LogInformation("Finished writing to {filename}", outputFilename);
-
-            NotifyAboutUpdate(jobId, outputFilename);
-        }
-
-        private void NotifyAboutUpdate(string jobId, string outputFilename)
-        {
-            var imageRelativeUri = new Uri($"{outputFilename}?cachebuster={Random.Shared.NextInt64()}", UriKind.Relative);
-            imageManager.Update(jobId, imageRelativeUri);
+            using var downloadedImage = await imageDownloader.DownloadImageAsync(imageSource);
+            ResizeImageToWidth(downloadedImage, 800);
+            await SaveImage(jobId, downloadedImage);
         }
 
         private static void ResizeImageToWidth(Image inputImage, int Width)
@@ -45,24 +36,18 @@
             });
         }
 
-        private async Task<Image> FetchImageAsync(Uri imageSource)
+        private async Task SaveImage(string jobId, Image inputImage)
         {
-            logger.LogInformation("Downloading: {imageSource}", imageSource.ToString());
-            using var httpClient = httpClientFactory.CreateClient();
-            var response = await httpClient.GetAsync(imageSource.AbsoluteUri);
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new InvalidOperationException($"Received {response.StatusCode} when downloading {imageSource}");
-            }
+            var filename = $"{jobId}-latest.jpg";
+            await inputImage.SaveAsJpegAsync($"wwwroot/{filename}");
+            logger.LogInformation("Finished writing to {filename}", filename);
+            NotifyAboutUpdate(jobId, filename);
+        }
 
-            var image = await Image.LoadAsync(await response.Content.ReadAsStreamAsync());
-            if (image is null)
-            {
-                throw new InvalidOperationException($"Could not parse response from {imageSource} to image");
-            }
-
-            logger.LogInformation("Finished downloading image from {imageSource}", imageSource);
-            return image;
+        private void NotifyAboutUpdate(string jobId, string outputFilename)
+        {
+            var imageRelativeUri = new Uri($"{outputFilename}?cachebuster={Random.Shared.NextInt64()}", UriKind.Relative);
+            imageManager.Update(jobId, imageRelativeUri);
         }
     }
 }

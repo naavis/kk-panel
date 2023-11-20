@@ -1,4 +1,5 @@
 using Hangfire;
+using KomakallioPanel.ImageTools;
 using KomakallioPanel.JobManagement;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddHangfire(config =>
 builder.Services.AddHangfireServer();
 
 builder.Services.AddSingleton<IImageManager, ImageManager>();
+builder.Services.AddTransient<IImageDownloader, ImageDownloader>();
 builder.Services.AddTransient<IImageUpdater, ImageUpdater>();
 
 builder.Services.AddRazorPages();
