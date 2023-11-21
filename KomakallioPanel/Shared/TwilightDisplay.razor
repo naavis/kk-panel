@@ -1,0 +1,25 @@
+﻿@using System.Globalization;
+<div>
+    @{
+        var latitude = 60.17;
+        var longitude = 24.39;
+        var time = DateTime.Now;
+        var sunPos = SunCalcNet.SunCalc.GetSunPosition(time, latitude, longitude);
+        var moonPos = SunCalcNet.MoonCalc.GetMoonPosition(time, latitude, longitude);
+        var moonIllumination = SunCalcNet.MoonCalc.GetMoonIllumination(time);
+        var moonIlluminationPercent = 100.0 * moonIllumination.Fraction;
+    }
+    <p>
+        Sun altitude: @sunPos.Altitude.ToString("F2", CultureInfo.InvariantCulture)°
+    </p>
+    <p>
+        Moon altitude: @moonPos.Altitude.ToString("F2", CultureInfo.InvariantCulture)°
+    </p>
+    <p>
+        Moon illumination: @moonIlluminationPercent.ToString("F2", CultureInfo.InvariantCulture)%
+    </p>
+</div>
+
+@code {
+
+}
