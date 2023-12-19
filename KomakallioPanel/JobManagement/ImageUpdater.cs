@@ -1,4 +1,5 @@
 ﻿using KomakallioPanel.ImageTools;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace KomakallioPanel.JobManagement
 {
@@ -44,7 +45,12 @@ namespace KomakallioPanel.JobManagement
         private async Task SaveImage(string jobId, Image inputImage)
         {
             var filename = $"{jobId}-latest.jpg";
-            await inputImage.SaveAsJpegAsync($"wwwroot/{filename}");
+            await inputImage.SaveAsJpegAsync(
+                $"wwwroot/{filename}",
+                new JpegEncoder
+                {
+                    Quality = 85,
+                });
             logger.LogInformation("Finished writing to {filename}", filename);
             NotifyAboutUpdate(jobId, filename);
         }
