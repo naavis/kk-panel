@@ -13,6 +13,7 @@
     <PackageReference Include="Hangfire.AspNetCore" Version="1.8.5" />
     <PackageReference Include="Hangfire.Core" Version="1.8.5" />
     <PackageReference Include="Hangfire.InMemory" Version="0.5.1" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
     <PackageReference Include="SunCalcNet" Version="1.2.2" />

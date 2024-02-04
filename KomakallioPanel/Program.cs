@@ -1,8 +1,12 @@
 using Hangfire;
+using KomakallioPanel;
 using KomakallioPanel.ImageTools;
 using KomakallioPanel.JobManagement;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<LocationOptions>(
+    builder.Configuration.GetSection(LocationOptions.Location));
 
 builder.Services.AddHangfire(config =>
     config.UseInMemoryStorage()

@@ -1,18 +1,23 @@
 ﻿@using System.Globalization;
+@using Microsoft.Extensions.Options;
+@inject IOptions<LocationOptions> LocationOptions;
+
+@{
+    var latitude = LocationOptions.Value.Latitude;
+    var longitude = LocationOptions.Value.Longitude;
+
+    var time = DateTime.UtcNow;
+    var sunPos = SunCalcNet.SunCalc.GetSunPosition(time, latitude, longitude);
+    var sunPhases = SunCalcNet.SunCalc.GetSunPhases(time, latitude, longitude, 0).ToArray();
+    var sunsetTime = sunPhases
+        .Single(p => p.Name.Value == SunCalcNet.Model.SunPhaseName.Sunset.Value)
+        .PhaseTime;
+    var moonPos = SunCalcNet.MoonCalc.GetMoonPosition(time, latitude, longitude);
+    var moonIllumination = SunCalcNet.MoonCalc.GetMoonIllumination(time);
+    var moonIlluminationFraction = moonIllumination.Fraction;
+}
+
 <div>
-    @{
-        var latitude = 60.17;
-        var longitude = 24.39;
-        var time = DateTime.UtcNow;
-        var sunPos = SunCalcNet.SunCalc.GetSunPosition(time, latitude, longitude);
-        var sunPhases = SunCalcNet.SunCalc.GetSunPhases(time, latitude, longitude, 0).ToArray();
-        var sunsetTime = sunPhases
-            .Single(p => p.Name.Value == SunCalcNet.Model.SunPhaseName.Sunset.Value)
-            .PhaseTime;
-        var moonPos = SunCalcNet.MoonCalc.GetMoonPosition(time, latitude, longitude);
-        var moonIllumination = SunCalcNet.MoonCalc.GetMoonIllumination(time);
-        var moonIlluminationFraction = moonIllumination.Fraction;
-    }
     <p>
         Sun altitude: @RadianToDegree(@sunPos.Altitude).ToString("F2", CultureInfo.InvariantCulture)°
     </p>

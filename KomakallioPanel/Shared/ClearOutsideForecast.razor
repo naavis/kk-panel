@@ -1,6 +1,15 @@
-﻿<div id="clear-outside">
-    <a href="https://clearoutside.com/forecast/60.17/24.39">
-        <img src="https://clearoutside.com/forecast_image_medium/60.17/24.39/forecast.png" />
+﻿@using Microsoft.Extensions.Options;
+@using System.Globalization;
+@inject IOptions<LocationOptions> LocationOptions;
+
+@{
+    var latitudeString = LocationOptions.Value.Latitude.ToString("F2", CultureInfo.InvariantCulture);
+    var longitudeString = LocationOptions.Value.Longitude.ToString("F2", CultureInfo.InvariantCulture);
+}
+
+<div id="clear-outside">
+    <a href="https://clearoutside.com/forecast/@latitudeString/@longitudeString">
+        <img src="https://clearoutside.com/forecast_image_medium/@latitudeString/@longitudeString/forecast.png" />
     </a>
 </div>
 
