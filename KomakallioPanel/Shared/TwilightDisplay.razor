@@ -1,5 +1,6 @@
 ﻿@using System.Globalization;
 @using Microsoft.Extensions.Options;
+@implements IDisposable
 @inject IOptions<LocationOptions> LocationOptions;
 
 @{
@@ -43,10 +44,11 @@
 
 @code {
     private readonly TimeSpan refreshInterval = TimeSpan.FromSeconds(20);
+    private Timer? _timer;
 
     protected override void OnInitialized()
     {
-        var timer = new System.Threading.Timer(e =>
+        _timer = new System.Threading.Timer(e =>
         {
             InvokeAsync(() =>
             {
@@ -56,6 +58,11 @@
         state: null,
         dueTime: refreshInterval,
         period: refreshInterval);
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
     }
 
     double RadianToDegree(double radian)
