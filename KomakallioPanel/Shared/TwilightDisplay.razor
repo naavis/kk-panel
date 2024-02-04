@@ -42,6 +42,22 @@
 </div>
 
 @code {
+    private readonly TimeSpan refreshInterval = TimeSpan.FromSeconds(20);
+
+    protected override void OnInitialized()
+    {
+        var timer = new System.Threading.Timer(e =>
+        {
+            InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        },
+        state: null,
+        dueTime: refreshInterval,
+        period: refreshInterval);
+    }
+
     double RadianToDegree(double radian)
     {
         return 180.0 * radian / Math.PI;
