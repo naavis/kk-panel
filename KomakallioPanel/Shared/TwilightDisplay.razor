@@ -11,7 +11,7 @@
             .PhaseTime;
         var moonPos = SunCalcNet.MoonCalc.GetMoonPosition(time, latitude, longitude);
         var moonIllumination = SunCalcNet.MoonCalc.GetMoonIllumination(time);
-        var moonIlluminationPercent = 100.0 * moonIllumination.Fraction;
+        var moonIlluminationFraction = moonIllumination.Fraction;
     }
     <p>
         Sun altitude: @RadianToDegree(@sunPos.Altitude).ToString("F2", CultureInfo.InvariantCulture)°
@@ -23,7 +23,7 @@
         Moon altitude: @RadianToDegree(@moonPos.Altitude).ToString("F2", CultureInfo.InvariantCulture)°
     </p>
     <p>
-        Moon illumination: @moonIlluminationPercent.ToString("F2", CultureInfo.InvariantCulture)%
+        Moon illumination: @moonIlluminationFraction.ToString("P2", CultureInfo.InvariantCulture)
     </p>
 </div>
 
