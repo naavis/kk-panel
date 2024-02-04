@@ -5,15 +5,19 @@
 @{
     var latitude = LocationOptions.Value.Latitude;
     var longitude = LocationOptions.Value.Longitude;
+    var now = DateTime.UtcNow;
 
-    var time = DateTime.UtcNow;
-    var sunPos = SunCalcNet.SunCalc.GetSunPosition(time, latitude, longitude);
-    var sunPhases = SunCalcNet.SunCalc.GetSunPhases(time, latitude, longitude, 0).ToArray();
+    var sunPos = SunCalcNet.SunCalc.GetSunPosition(now, latitude, longitude);
+    var sunPhases = SunCalcNet.SunCalc.GetSunPhases(now, latitude, longitude, 0).ToArray();
     var sunsetTime = sunPhases
         .Single(p => p.Name.Value == SunCalcNet.Model.SunPhaseName.Sunset.Value)
         .PhaseTime;
-    var moonPos = SunCalcNet.MoonCalc.GetMoonPosition(time, latitude, longitude);
-    var moonIllumination = SunCalcNet.MoonCalc.GetMoonIllumination(time);
+
+    var minutesToSunset = (sunsetTime - now).TotalMinutes;
+    var roundedMinutesToSunset = (int)Math.Floor(minutesToSunset);
+
+    var moonPos = SunCalcNet.MoonCalc.GetMoonPosition(now, latitude, longitude);
+    var moonIllumination = SunCalcNet.MoonCalc.GetMoonIllumination(now);
     var moonIlluminationFraction = moonIllumination.Fraction;
 }
 
@@ -22,7 +26,7 @@
         Sun altitude: @RadianToDegree(@sunPos.Altitude).ToString("F2", CultureInfo.InvariantCulture)°
     </p>
     <p>
-        Sun sets in @((sunsetTime - time).TotalMinutes.ToString("F2", CultureInfo.InvariantCulture)) minutes
+        Sun sets in @roundedMinutesToSunset.ToString("D", CultureInfo.InvariantCulture) minutes
     </p>
     <p>
         Moon altitude: @RadianToDegree(@moonPos.Altitude).ToString("F2", CultureInfo.InvariantCulture)°
