@@ -10,10 +10,10 @@
         var moonIlluminationPercent = 100.0 * moonIllumination.Fraction;
     }
     <p>
-        Sun altitude: @sunPos.Altitude.ToString("F2", CultureInfo.InvariantCulture)°
+        Sun altitude: @RadianToDegree(@sunPos.Altitude).ToString("F2", CultureInfo.InvariantCulture)°
     </p>
     <p>
-        Moon altitude: @moonPos.Altitude.ToString("F2", CultureInfo.InvariantCulture)°
+        Moon altitude: @RadianToDegree(@moonPos.Altitude).ToString("F2", CultureInfo.InvariantCulture)°
     </p>
     <p>
         Moon illumination: @moonIlluminationPercent.ToString("F2", CultureInfo.InvariantCulture)%
@@ -21,5 +21,8 @@
 </div>
 
 @code {
-
+    double RadianToDegree(double radian)
+    {
+        return 180.0 * radian / Math.PI;
+    }
 }
