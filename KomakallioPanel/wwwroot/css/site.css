@@ -52,14 +52,14 @@ a {
 
 @media screen and (min-width: 1680px) {
     .container img {
-        width: 520px;
+        width: auto;
         height: 390px;
     }
 }
 
 @media screen and (min-width: 720px) and (max-width: 1680px) {
     .container img {
-        width: 320px;
+        width: auto;
         height: 240px;
     }
 }
@@ -80,7 +80,7 @@ a {
     justify-content: center;
 }
 
-#clear-outside img {
-    width: auto;
-    height: auto;
-}
+    #clear-outside img {
+        width: auto;
+        height: auto;
+    }
