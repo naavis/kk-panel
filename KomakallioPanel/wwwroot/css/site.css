@@ -42,30 +42,42 @@ a {
     justify-content: center;
 }
 
-    .container div {
-        margin: 5px;
-        padding: 5px;
-        border: 1px solid black;
-        border-radius: 3px;
-        background-color: rgb(60, 60, 60);
-    }
+.container div:not(.imageContainer) {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 3px;
+    background-color: rgb(60, 60, 60);
+}
+
+.container .imageContainer {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.imageContainer img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
 
 @media screen and (min-width: 1680px) {
-    .container img {
+    .container .imageContainer {
         width: 520px;
         height: 390px;
     }
 }
 
 @media screen and (min-width: 720px) and (max-width: 1680px) {
-    .container img {
+    .container .imageContainer {
         width: 320px;
         height: 240px;
     }
 }
 
 @media screen and (max-width: 720px) {
-    .container img {
+    .container .imageContainer {
         width: 100%;
     }
 }
