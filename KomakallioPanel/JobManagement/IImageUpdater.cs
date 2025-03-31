@@ -1,4 +1,6 @@
-﻿namespace KomakallioPanel.JobManagement
+﻿using SixLabors.ImageSharp;
+
+namespace KomakallioPanel.JobManagement
 {
     public interface IImageUpdater
     {

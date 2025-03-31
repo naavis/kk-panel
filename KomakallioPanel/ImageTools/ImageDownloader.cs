@@ -1,4 +1,6 @@
-﻿namespace KomakallioPanel.ImageTools
+﻿using SixLabors.ImageSharp;
+
+namespace KomakallioPanel.ImageTools
 {
     public class ImageDownloader : IImageDownloader
     {

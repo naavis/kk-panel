@@ -1,4 +1,7 @@
 ﻿using KomakallioPanel.ImageTools;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using System.Text.Json;
 
 namespace KomakallioPanel.JobManagement.Jobs

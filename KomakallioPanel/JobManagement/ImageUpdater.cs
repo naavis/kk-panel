@@ -1,5 +1,7 @@
 ﻿using KomakallioPanel.ImageTools;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
 
 namespace KomakallioPanel.JobManagement
 {
