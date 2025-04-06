@@ -7,6 +7,7 @@ namespace KomakallioPanel.JobManagement
         public static void ConfigureJobs(this WebApplication app)
         {
             var imageManager = app.Services.GetRequiredService<IImageManager>();
+            imageManager.Add<KomakallioJob>("*/15 * * * * *");
             imageManager.Add<MetsahoviJob>("30 */3 * * * *");
             imageManager.Add<FmiTestbedJob>("0 */5 * * * *");
             imageManager.Add<BromarvJob>("30 * * * * *");
