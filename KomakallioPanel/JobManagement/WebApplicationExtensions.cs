@@ -8,10 +8,10 @@ namespace KomakallioPanel.JobManagement
         {
             var imageManager = app.Services.GetRequiredService<IImageManager>();
             imageManager.Add<KomakallioJob>("*/15 * * * * *");
-            imageManager.Add<MetsahoviJob>("30 */3 * * * *");
             imageManager.Add<FmiTestbedJob>("0 */5 * * * *");
-            imageManager.Add<BromarvJob>("30 * * * * *");
             imageManager.Add<Sat24MicrophysicsJob>("30 */5 * * * *");
+            imageManager.Add<MetsahoviJob>("30 */3 * * * *");
+            imageManager.Add<BromarvJob>("30 * * * * *");
             imageManager.Add<TahtikallioJob>("30 */5 * * * *");
             imageManager.Add<KevolaJob>("0,30 * * * * *");
             imageManager.Add<TampereNorthJob>("30 * * * * *");
