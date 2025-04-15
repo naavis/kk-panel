@@ -12,7 +12,7 @@
         public static ImageSettings Settings
             => new("komakallio",
                    "Komakallio",
-                   new Uri("https://www.kirkkonummenkomeetta.fi"),
+                   new Uri("https://taivas.komakallio.fi"),
                    Constants.NotAvailableImageUri);
 
         public async Task ExecuteAsync()
