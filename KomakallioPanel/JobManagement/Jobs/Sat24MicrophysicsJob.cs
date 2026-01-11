@@ -1,89 +1,208 @@
-﻿using KomakallioPanel.ImageTools;
+﻿using AngleSharp;
+using KomakallioPanel.ImageTools;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 
 namespace KomakallioPanel.JobManagement.Jobs
 {
-    public class Sat24MicrophysicsJob : IImageJob
+    public class Sat24MicrophysicsJob(
+        IImageUpdater imageUpdater,
+        IImageDownloader imageDownloader) : IImageJob
     {
-        private class Layer
-        {
-            public string Url { get; set; } = default!;
-        }
-
-        private class JsonResponse
-        {
-            public IEnumerable<Layer> Layers { get; set; } = default!;
-        }
-
-        private readonly IHttpClientFactory httpClientFactory;
-        private readonly IImageUpdater imageUpdater;
-        private readonly IImageDownloader imageDownloader;
-
-        public Sat24MicrophysicsJob(IHttpClientFactory httpClientFactory,
-                                    IImageUpdater imageUpdater,
-                                    IImageDownloader imageDownloader)
-        {
-            this.httpClientFactory = httpClientFactory;
-            this.imageUpdater = imageUpdater;
-            this.imageDownloader = imageDownloader;
-        }
-
         public static ImageSettings Settings
             => new("sat24microphysics",
                    "Sat24 Nightmicrophysics",
-                   new Uri("https://www.sat24.com/en-gb/city/667551/hd#selectedLayer=euMicro"),
+                   new Uri("https://www.sat24.com/en-gb/country/se/hd#selectedLayer=euMicro"),
                    Constants.NotAvailableImageUri);
 
         public async Task ExecuteAsync()
         {
-            JsonResponse? parsedJson = await GetLayerListAsync();
-            var lastLayer = parsedJson.Layers.Last();
-            var satelliteUrl = GetFullImageUrl(lastLayer);
+            var satelliteUrl = await GetFullImageUrlAsync();
             using var satelliteImage = await imageDownloader.DownloadImageAsync(satelliteUrl);
 
-            const string countryBordersUrl = "https://maptiler.infoplaza.io/api/maps/Border/static/25.48,64.56,4.2/1176x882.png?attribution=false";
+            const string countryBordersUrl = "https://maptiler.infoplaza.io/api/maps/Border/static/11.18,61.64,3.5/1176x882.png?attribution=false";
             using var countryBordersImage = await imageDownloader.DownloadImageAsync(new Uri(countryBordersUrl, UriKind.Absolute));
 
-            // Align satellite image to country borders image
-            satelliteImage.Mutate(image =>
-                image.Crop(new Rectangle(15, 215, 4095, 3019))
-                     .Resize(countryBordersImage.Size));
+            // Align border image to satellite image
+            countryBordersImage.Mutate(ctx =>
+            {
+                ctx.Resize(new ResizeOptions
+                {
+                    Size = satelliteImage.Size,
+                    Mode = ResizeMode.BoxPad,
+                    Position = AnchorPositionMode.Center,
+                });
+
+                ctx.Resize(new ResizeOptions
+                {
+                    Size = (Size)(1.4f * ctx.GetCurrentSize()),
+                    Mode = ResizeMode.Stretch,
+                    Position = AnchorPositionMode.Center,
+                });
+
+                var cropCorner = new Point((ctx.GetCurrentSize() - satelliteImage.Size) / 2);
+                ctx.Crop(new Rectangle(cropCorner, satelliteImage.Size));
+            });
 
             // Add country borders to satellite image and crop excess
-            using var outputImage = countryBordersImage.Clone(ctx =>
-                ctx.DrawImage(satelliteImage, PixelColorBlendingMode.Add, 1.0f)
-                   .Crop(new Rectangle(200, 200, 800, 600)));
+            using var outputImage = satelliteImage.Clone(ctx =>
+            {
+                ctx.DrawImage(countryBordersImage, PixelColorBlendingMode.Add, 1.0f);
+                ctx.Crop(new Rectangle(700, 200, 1000, 900));
+            });
 
             await imageUpdater.UpdateImageAsync(Settings.Id, outputImage);
         }
 
-        private static Uri GetFullImageUrl(Layer layer)
+        private async Task<Uri> GetFullImageUrlAsync()
         {
-            var baseUri = new Uri("https://imn-api.meteoplaza.com/v4/nowcast/tiles/", UriKind.Absolute);
-            /* If layer.Url starts with a slash, cambining it with the baseUri using the
-             * Uri constructor erases the path in the baseUri, resulting in the wrong URL */
-            var tilePath = layer.Url.StartsWith("/") ? layer.Url[1..] : layer.Url;
-            var fullUri = new Uri(baseUri, tilePath + "/7/27/65/41/82?outputtype=jpeg");
-            return fullUri;
-        }
+            var config = AngleSharp.Configuration.Default.WithDefaultLoader();
+            var address = "https://www.sat24.com/en-gb/country/se/hd";
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(address);
 
-        private async Task<JsonResponse> GetLayerListAsync()
-        {
-            var httpClient = httpClientFactory.CreateClient();
-            var jsonResult = await httpClient.GetAsync("https://imn-api.meteoplaza.com/v4/nowcast/tiles/satellite-europe-nightmicrophysics/");
+            var scriptTag = document.QuerySelector("""div[data-component="SnippetSatellite"] > div.js-static-satellite > script:nth-child(1)""");
+            var scriptContent = scriptTag?.TextContent ?? throw new InvalidOperationException("Could not find script tag in Sat24 page");
 
-            var parsedJson = await JsonSerializer.DeserializeAsync<JsonResponse>(
-                await jsonResult.Content.ReadAsStreamAsync(),
-                new JsonSerializerOptions(JsonSerializerDefaults.Web));
-            if (parsedJson is null)
+            // Extract the radarAvaliableLayers object for the euMicro layer
+            // The script is all on one line: radarAvaliableLayers[0]['euMicro'] = { ... };radarAvaliableLayers[0]['next'] = ...
+            // Find the start of the euMicro assignment
+            var euMicroPattern = @"radarAvaliableLayers\[0\]\['euMicro'\]\s*=\s*";
+            var match = Regex.Match(scriptContent, euMicroPattern);
+            if (!match.Success)
             {
-                throw new InvalidOperationException("Could not parse JSON from Sat24");
+                throw new InvalidOperationException("Could not find radarAvaliableLayers['euMicro'] in script content");
             }
 
-            return parsedJson;
+            // Extract the balanced JavaScript object starting from the match position
+            var jsObject = ExtractBalancedBraces(scriptContent, match.Index + match.Length);
+
+            // Convert JavaScript object literal to valid JSON
+            var jsonString = ConvertJavaScriptObjectToJson(jsObject);
+
+            // Deserialize JSON to strongly-typed object
+            var layerData = JsonSerializer.Deserialize<RadarLayerData>(jsonString)
+                ?? throw new InvalidOperationException("Failed to deserialize euMicro layer data");
+
+            // Validate that we have the required data
+            if (string.IsNullOrEmpty(layerData.BaseImageUrl))
+            {
+                throw new InvalidOperationException("baseImageUrl is missing from euMicro layer data");
+            }
+
+            if (layerData.RadarLayers.Length == 0)
+            {
+                throw new InvalidOperationException("No radar layers found in euMicro data");
+            }
+
+            // Get the last URL (most recent image)
+            var latestImagePath = layerData.RadarLayers[^1].Url;
+
+            // Ensure baseImageUrl ends with a slash for proper URI combination
+            var baseImageUrl = layerData.BaseImageUrl;
+            if (!baseImageUrl.EndsWith('/'))
+            {
+                baseImageUrl += "/";
+            }
+
+            /* If path starts with a slash, cambining it with the baseImageUrl using the
+             * Uri constructor erases the path in the baseImageUrl, resulting in the wrong URL */
+            latestImagePath = latestImagePath.StartsWith('/') ? latestImagePath[1..] : latestImagePath;
+
+            // Combine base URL and image path
+            var fullUrl = new Uri(new Uri(baseImageUrl), latestImagePath);
+            return fullUrl;
         }
+
+        /// <summary>
+        /// Extracts a JavaScript object by finding balanced braces starting from a position.
+        /// </summary>
+        private static string ExtractBalancedBraces(string content, int startIndex)
+        {
+            int braceCount = 0;
+            int objectStart = -1;
+
+            for (int i = startIndex; i < content.Length; i++)
+            {
+                if (content[i] == '{')
+                {
+                    if (braceCount == 0)
+                    {
+                        objectStart = i;
+                    }
+                    braceCount++;
+                }
+                else if (content[i] == '}')
+                {
+                    braceCount--;
+                    if (braceCount == 0 && objectStart != -1)
+                    {
+                        // Found matching closing brace
+                        return content.Substring(objectStart, i - objectStart + 1);
+                    }
+                }
+            }
+
+            throw new InvalidOperationException("Could not find balanced braces in JavaScript content");
+        }
+
+        /// <summary>
+        /// Converts a JavaScript object literal to valid JSON string.
+        /// Handles unquoted property names and converts single quotes to double quotes.
+        /// </summary>
+        private static string ConvertJavaScriptObjectToJson(string jsObject)
+        {
+            // Step 1: Add quotes around unquoted property names
+            // Match: word characters followed by colon (but not already quoted)
+            // This pattern looks for property names like: propertyName: or property123:
+            var quotedProperties = Regex.Replace(
+                jsObject,
+                @"(?<![""'])(\b[a-zA-Z_$][a-zA-Z0-9_$]*\b)(?=\s*:)",
+                "\"$1\""
+            );
+
+            // Step 2: Replace single quotes with double quotes for string values
+            // This is a simplified approach - it assumes single quotes are used for strings
+            // and not in other contexts (which is typically true for the sat24.com data)
+            var withDoubleQuotes = quotedProperties.Replace("'", "\"");
+
+            // Step 3: Remove trailing commas before closing braces/brackets
+            var withoutTrailingCommas = Regex.Replace(
+                withDoubleQuotes,
+                @",(\s*[}\]])",
+                "$1"
+            );
+
+            return withoutTrailingCommas;
+        }
+    }
+
+    // JSON models for deserializing the radar layer data
+    internal class RadarLayerData
+    {
+        [JsonPropertyName("baseImageUrl")]
+        public string BaseImageUrl { get; set; } = string.Empty;
+
+        [JsonPropertyName("radarLayers")]
+        public RadarLayer[] RadarLayers { get; set; } = [];
+    }
+
+    internal class RadarLayer
+    {
+        [JsonPropertyName("url")]
+        public string Url { get; set; } = string.Empty;
+
+        [JsonPropertyName("layername")]
+        public string LayerName { get; set; } = string.Empty;
+
+        [JsonPropertyName("endpoint")]
+        public string Endpoint { get; set; } = string.Empty;
+
+        [JsonPropertyName("tileurl")]
+        public string? TileUrl { get; set; }
     }
 }
